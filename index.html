@@ -2393,6 +2393,30 @@ p { font-size: 1rem; color: var(--text-mid); }
   transition: transform 0.1s ease;
 }
 
+.btn-tt {
+  background: linear-gradient(135deg, #171717 0%, #0f0f10 52%, #050505 100%);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.35) inset,
+    0 -1px 0 rgba(0,0,0,0.18) inset,
+    0 6px 20px rgba(0,0,0,0.28),
+    0 2px 4px rgba(0,0,0,0.16);
+}
+.btn-tt:hover {
+  transform: perspective(800px) translateZ(4px) translateY(-3px) scale(1.02);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.45) inset,
+    0 -1px 0 rgba(0,0,0,0.2) inset,
+    0 16px 34px rgba(0,0,0,0.34),
+    0 6px 12px rgba(0,0,0,0.18);
+  background: linear-gradient(135deg, #222223 0%, #111214 46%, #09090a 100%);
+}
+.btn-tt:active {
+  transform: perspective(800px) translateZ(-2px) translateY(1px) scale(0.98);
+  transition: transform 0.1s ease;
+}
+
 /* ── OUTLINE button 3D ── */
 .btn-outline {
   background: rgba(26,58,110,0.05);
@@ -4579,6 +4603,10 @@ body:not(.preloading) .site-preloader {
           <a href="https://www.facebook.com/share/1LMAFiV6jw/?mibextid=wwXIfr" class="btn btn-fb" target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 22v-8.2h2.75l.52-3.22H13.5V8.49c0-.88.43-1.74 1.82-1.74H16.9V4.01c-.28-.04-1.25-.11-2.37-.11-2.42 0-4.01 1.46-4.01 4.14v2.54H7.8v3.22h2.72V22h2.98z"/></svg>
             Síguenos en Facebook
+          </a>
+          <a href="https://www.tiktok.com/@calidad.veintiuno?is_from_webapp=1&sender_device=pc" class="btn btn-tt" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.95 3c.23 1.9 1.3 3.63 2.93 4.63a5.65 5.65 0 0 0 3.12.9v2.83a8.41 8.41 0 0 1-3.61-.8v5.52c0 3.86-3.13 6.99-6.99 6.99s-6.99-3.13-6.99-6.99 3.13-6.99 6.99-6.99c.32 0 .63.02.94.07v2.91a4.26 4.26 0 0 0-.94-.11 4.12 4.12 0 1 0 4.12 4.12V3h2.43z"/></svg>
+            Síguenos en TikTok
           </a>
         </div>
       </div>
