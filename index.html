@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' https://fonts.gstatic.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="X-DNS-Prefetch-Control" content="off">
 <meta name="description" content="Calidad 21 – Piscinas y Fuentes. Más de 25 años de experiencia en mantenimiento, construcción, rehabilitación de albercas y fuentes en CDMX. Calidad es sinónimo de tranquilidad.">
 <meta name="keywords" content="albercas CDMX, piscinas México, mantenimiento albercas, fuentes ornamentales, Tlalpan, jacuzzis">
 <title>Calidad 21 – Piscinas y Fuentes | CDMX</title>
@@ -855,6 +859,15 @@ p { font-size: 1rem; color: var(--text-mid); }
   justify-content: center;
   flex-shrink: 0;
   box-shadow: 0 2px 12px rgba(26,58,110,0.08);
+}
+#services .services-cta-icon svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--sky);
+  fill: none;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 #services .services-cta-copy {
   flex: 1;
@@ -2356,6 +2369,30 @@ p { font-size: 1rem; color: var(--text-mid); }
   transition: transform 0.1s ease;
 }
 
+.btn-fb {
+  background: linear-gradient(135deg, #4f8df7 0%, #2f6de1 52%, #1f56c6 100%);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.35) inset,
+    0 -1px 0 rgba(0,0,0,0.16) inset,
+    0 6px 20px rgba(47,109,225,0.28),
+    0 2px 4px rgba(0,0,0,0.16);
+}
+.btn-fb:hover {
+  transform: perspective(800px) translateZ(4px) translateY(-3px) scale(1.02);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.45) inset,
+    0 -1px 0 rgba(0,0,0,0.18) inset,
+    0 16px 34px rgba(47,109,225,0.34),
+    0 6px 12px rgba(0,0,0,0.18);
+  background: linear-gradient(135deg, #6199ff 0%, #3877ea 48%, #245ecc 100%);
+}
+.btn-fb:active {
+  transform: perspective(800px) translateZ(-2px) translateY(1px) scale(0.98);
+  transition: transform 0.1s ease;
+}
+
 /* ── OUTLINE button 3D ── */
 .btn-outline {
   background: rgba(26,58,110,0.05);
@@ -2896,9 +2933,10 @@ body:not(.preloading) .site-preloader {
 /* --- Brand Support Section --- */
 .brand-support-section {
   background:
+    linear-gradient(145deg, rgba(7,24,45,0.84) 0%, rgba(10,31,58,0.74) 45%, rgba(7,18,33,0.88) 100%),
     radial-gradient(circle at 18% 10%, rgba(74,159,212,0.18), transparent 34%),
     radial-gradient(circle at 82% 22%, rgba(127,191,232,0.12), transparent 36%),
-    linear-gradient(145deg, var(--royal-deep) 0%, var(--royal-dark) 48%, #071221 100%);
+    url('assets/images/PROYE 5.png') center center / cover no-repeat;
   position: relative;
   overflow: hidden;
   color: var(--white);
@@ -3056,7 +3094,7 @@ body:not(.preloading) .site-preloader {
   .brand-logo-track { animation: none; }
 }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="assets/js/gsap.min.js"></script>
 </head>
 <body class="preloading">
 
@@ -3353,7 +3391,13 @@ body:not(.preloading) .site-preloader {
     <!-- ── CTA block below carousel ── -->
     <div class="services-cta-block fade-up visible">
       <div class="services-cta-inner">
-        <div class="services-cta-icon">ðŸ“ž</div>
+        <div class="services-cta-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            <path d="M8 9h8"></path>
+            <path d="M8 13h5"></path>
+          </svg>
+        </div>
         <div class="services-cta-copy">
           <h3>¿Necesitas algo más?</h3>
           <p>Cuéntanos tu caso. Ofrecemos soluciones a la medida para cada proyecto, con asesoría incluida y sin intermediarios.</p>
@@ -4360,31 +4404,6 @@ body:not(.preloading) .site-preloader {
         </div>
       </div>
 
-      <div class="why-pillars-card fade-up visible">
-        <div class="why-pillars-grid">
-          <div class="why-pillar">
-            <span class="why-pillar-index">01</span>
-            <h3>Atención personalizada</h3>
-            <p>Cada proyecto se entiende desde las necesidades reales del cliente, con acompañamiento cercano y decisiones bien guiadas.</p>
-          </div>
-          <div class="why-pillar">
-            <span class="why-pillar-index">02</span>
-            <h3>Precisión técnica</h3>
-            <p>Trabajamos con criterios rigurosos de diseño, construcción y ejecución para asegurar control en cada detalle.</p>
-          </div>
-          <div class="why-pillar">
-            <span class="why-pillar-index">03</span>
-            <h3>Experiencia comprobada</h3>
-            <p>Una trayectoria de más de 100 proyectos nos permite responder con criterio, visión y soluciones confiables.</p>
-          </div>
-          <div class="why-pillar">
-            <span class="why-pillar-index">04</span>
-            <h3>Calidad garantizada</h3>
-            <p>Nuestro estándar combina durabilidad, estética y cumplimiento para entregar espacios acuáticos con certeza total.</p>
-          </div>
-        </div>
-      </div>
-
       <div class="why-purpose-card fade-up visible">
         <div class="why-purpose-head">
           <h3>Misión y Visión</h3>
@@ -4488,9 +4507,7 @@ body:not(.preloading) .site-preloader {
         </div>
         <div class="cta-contact-item">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-          <span><a href="mailto:direccion@calidad21.com">
-  direccion@calidad21.com
-</a></span>
+          <span><a href="mailto:calidad.veintiuno@gmail.com">calidad.veintiuno@gmail.com</a><br><a href="mailto:rafaelhzm@gmail.com">rafaelhzm@gmail.com</a></span>
         </div>
       </div>
     </div>
@@ -4541,23 +4558,27 @@ body:not(.preloading) .site-preloader {
             </div>
             <div class="contact-detail-text">
               <strong>Correo electrónico</strong>
-              <a href="mailto:direccion@calidad21.com">
-  direccion@calidad21.com
+              <a href="mailto:calidad.veintiuno@gmail.com">
+  calidad.veintiuno@gmail.com
 </a>
-              <a href="mailto:proyectos@calidad21.com">
-  proyectos@calidad21.com
+              <a href="mailto:rafaelhzm@gmail.com">
+  rafaelhzm@gmail.com
 </a>
             </div>
           </div>
         </div>
         <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;">
-          <a href="https://wa.me/5215550602915?text=Hola%2C%20quiero%20contactar%20a%20Calidad%2021" class="btn btn-wa" target="_blank">
+          <a href="https://wa.me/5215550602915?text=Hola%2C%20quiero%20contactar%20a%20Calidad%2021" class="btn btn-wa" target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
             Escribir por WhatsApp
           </a>
           <a href="https://www.instagram.com/calidad21_/?utm_source=ig_web_button_share_sheet" class="btn btn-ig" target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5a4.25 4.25 0 0 0-4.25-4.25h-8.5zm8.88 1.62a1.13 1.13 0 1 1 0 2.26 1.13 1.13 0 0 1 0-2.26zM12 6.5A5.5 5.5 0 1 1 6.5 12 5.5 5.5 0 0 1 12 6.5zm0 1.5A4 4 0 1 0 16 12a4 4 0 0 0-4-4z"/></svg>
             Síguenos en Instagram
+          </a>
+          <a href="https://www.facebook.com/share/1LMAFiV6jw/?mibextid=wwXIfr" class="btn btn-fb" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 22v-8.2h2.75l.52-3.22H13.5V8.49c0-.88.43-1.74 1.82-1.74H16.9V4.01c-.28-.04-1.25-.11-2.37-.11-2.42 0-4.01 1.46-4.01 4.14v2.54H7.8v3.22h2.72V22h2.98z"/></svg>
+            Síguenos en Facebook
           </a>
         </div>
       </div>
@@ -4623,7 +4644,7 @@ src="assets/images/Calidad21logopng.png" alt="Logo CALIDAD 21" class="nav-logo-i
           <a class="footer-social-btn" href="https://wa.me/5215550602915" target="_blank" title="WhatsApp">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12 0C5.373 0 0 5.373 0 12c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654A11.882 11.882 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0"></path></svg>
           </a>
-          <a class="footer-social-btn" href="mailto:direccion@calidad21.com" title="Email">
+          <a class="footer-social-btn" href="mailto:calidad.veintiuno@gmail.com" title="Email">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
           </a>
           <a class="footer-social-btn" href="tel:5554467466" title="Llamar">
@@ -4655,11 +4676,12 @@ src="assets/images/Calidad21logopng.png" alt="Logo CALIDAD 21" class="nav-logo-i
       <div class="footer-col">
         <h4>Contacto</h4>
         <ul class="footer-links">
-          <li><a href="tel:5554467466">ðŸ“ž 55 5446 7466</a></li>
-          <li><a href="https://wa.me/5215550602915" target="_blank">ðŸ’¬ 55 5060 2915</a></li>
-          <li><a href="https://wa.me/52155505075161" target="_blank">ðŸ’¬ 55 5507 5161</a></li>
-          <li><a href="mailto:direccion@calidad21.com">✉ direccion@calidad21.com</a></li>
-          <li><a href="#">ðŸ“ Tlalpan, CDMX 14749</a></li>
+          <li><a href="tel:5554467466">55 5446 7466</a></li>
+          <li><a href="https://wa.me/5215550602915" target="_blank" rel="noopener noreferrer">WhatsApp 55 5060 2915</a></li>
+          <li><a href="https://wa.me/52155505075161" target="_blank" rel="noopener noreferrer">WhatsApp 55 5507 5161</a></li>
+          <li><a href="mailto:calidad.veintiuno@gmail.com">calidad.veintiuno@gmail.com</a></li>
+          <li><a href="mailto:rafaelhzm@gmail.com">rafaelhzm@gmail.com</a></li>
+          <li><a href="#">Tlalpan, CDMX 14749</a></li>
         </ul>
       </div>
     </div>
@@ -4830,6 +4852,14 @@ if (heroPanel && heroSection) {
 }
 </script>
 <script>
+document.querySelectorAll('a[target="_blank"]').forEach(function(link) {
+  var tokens = (link.getAttribute('rel') || '').split(/\s+/).filter(Boolean);
+  ['noopener', 'noreferrer'].forEach(function(token) {
+    if (tokens.indexOf(token) === -1) tokens.push(token);
+  });
+  link.setAttribute('rel', tokens.join(' '));
+});
+
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 60);
@@ -4970,12 +5000,18 @@ function closeMobile() { mobileNav.classList.remove('open'); }
     lastTrigger = trigger || null;
     eyebrow.textContent = item.eyebrow;
     title.textContent = item.title;
-    body.innerHTML = item.body.map(function(paragraph) {
-      return '<p>' + paragraph + '</p>';
-    }).join('');
-    points.innerHTML = item.points.map(function(point) {
-      return '<li>' + point + '</li>';
-    }).join('');
+    body.replaceChildren();
+    item.body.forEach(function(paragraph) {
+      var paragraphNode = document.createElement('p');
+      paragraphNode.textContent = paragraph;
+      body.appendChild(paragraphNode);
+    });
+    points.replaceChildren();
+    item.points.forEach(function(point) {
+      var pointNode = document.createElement('li');
+      pointNode.textContent = point;
+      points.appendChild(pointNode);
+    });
     link.href = item.href;
 
     modal.classList.add('is-open');
@@ -5178,6 +5214,39 @@ function closeMobile() { mobileNav.classList.remove('open'); }
   start();
 })();
 
+function sendTrackingEmail(payload) {
+  var endpoint = 'https://formsubmit.co/calidad.veintiuno@gmail.com';
+  var formData = new FormData();
+
+  formData.append('_subject', 'Nuevo contacto desde Calidad 21');
+  formData.append('_captcha', 'false');
+  formData.append('_template', 'table');
+  formData.append('_replyto', payload.correo || 'calidad.veintiuno@gmail.com');
+  formData.append('nombre', payload.nombre || 'No proporcionado');
+  formData.append('telefono', payload.telefono || 'No proporcionado');
+  formData.append('correo', payload.correo || 'No proporcionado');
+  formData.append('servicio', payload.servicio || 'No especificado');
+  formData.append('mensaje', payload.mensaje || 'Sin mensaje');
+  formData.append('origen', window.location.href);
+  formData.append('fecha', new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' }));
+
+  if (navigator.sendBeacon) {
+    try {
+      navigator.sendBeacon(endpoint, formData);
+      return;
+    } catch (error) {}
+  }
+
+  fetch(endpoint, {
+    method: 'POST',
+    body: formData,
+    keepalive: true,
+    mode: 'no-cors'
+  }).catch(function(error) {
+    console.error('No se pudo enviar el correo de seguimiento.', error);
+  });
+}
+
 function handleSubmit(event) {
   event.preventDefault();
 
@@ -5206,6 +5275,18 @@ function handleSubmit(event) {
 
   var url = 'https://wa.me/5215550602915?text=' + encodeURIComponent(texto);
   window.open(url, '_blank', 'noopener');
+
+  sendTrackingEmail({
+    nombre: nombre,
+    telefono: telefono,
+    correo: correo,
+    servicio: servicio,
+    mensaje: mensaje
+  });
+
+  if (event.target && typeof event.target.reset === 'function') {
+    event.target.reset();
+  }
 }
 </script>
 </body>
