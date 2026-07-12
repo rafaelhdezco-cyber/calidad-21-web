@@ -1319,60 +1319,6 @@ p { font-size: 1rem; color: var(--text-mid); }
   line-height: 1.5;
 }
 
-/* ─── TESTIMONIALS ─── */
-#testimonials { background: var(--white); }
-.test-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-.test-card {
-  background: var(--off-white);
-  border: 1px solid rgba(26,58,110,0.07);
-  border-radius: 20px;
-  padding: 32px;
-  transition: all 0.3s;
-  position: relative;
-}
-.test-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-card);
-}
-.test-stars { color: #f0a030; font-size: 0.85rem; margin-bottom: 16px; letter-spacing: 2px; }
-.test-quote {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.15rem;
-  font-style: italic;
-  color: var(--royal-dark);
-  line-height: 1.55;
-  margin-bottom: 24px;
-}
-.test-author {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.test-avatar {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: var(--mist);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 600;
-  color: var(--royal);
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-.test-name {
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: var(--text-dark);
-  display: block;
-}
-.test-role { font-size: 0.78rem; color: var(--text-light); }
-
 /* ─── FINAL CTA ─── */
 #cta {
   background: linear-gradient(145deg, var(--royal-dark) 0%, var(--royal-deep) 100%);
@@ -1660,7 +1606,6 @@ p { font-size: 1rem; color: var(--text-mid); }
   .hero-inner { grid-template-columns: 1fr; }
   .hero-visual { display: none; }
   .problem-grid, .why-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-  .test-grid { grid-template-columns: 1fr 1fr; }
   .portfolio-grid { grid-template-columns: 1fr 1fr; }
   .port-item:first-child { grid-row: auto; grid-column: 1 / 3; }
 }
@@ -1669,7 +1614,6 @@ p { font-size: 1rem; color: var(--text-mid); }
   .hamburger { display: flex; }
   .mobile-nav { display: flex; }
   .products-grid { grid-template-columns: 1fr; }
-  .test-grid { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr; }
   .trust-inner { gap: 20px; }
   .trust-divider { display: none; }
@@ -1932,33 +1876,6 @@ p { font-size: 1rem; color: var(--text-mid); }
   background: linear-gradient(135deg, var(--royal) 0%, var(--royal-deep) 100%);
   border-color: rgba(74,159,212,0.3);
   box-shadow: 0 8px 32px rgba(26,58,110,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
-}
-
-/* ── TESTIMONIAL cards ── */
-.test-card {
-  background: rgba(255,255,255,0.98);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(26,58,110,0.08);
-  border-radius: 20px;
-  transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
-  position: relative;
-  overflow: hidden;
-}
-.test-card::before {
-  content: '"';
-  position: absolute;
-  top: 12px; right: 20px;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 5rem;
-  color: rgba(74,159,212,0.08);
-  line-height: 1;
-  font-style: italic;
-  pointer-events: none;
-}
-.test-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 50px rgba(26,58,110,0.14), 0 0 0 1px rgba(74,159,212,0.18);
 }
 
 /* ── CONTACT FORM glass ── */
@@ -2994,69 +2911,109 @@ body:not(.preloading) .site-preloader {
 /* --- Brand Support Section --- */
 .brand-support-section {
   background:
-    linear-gradient(145deg, rgba(7,24,45,0.84) 0%, rgba(10,31,58,0.74) 45%, rgba(7,18,33,0.88) 100%),
-    radial-gradient(circle at 18% 10%, rgba(74,159,212,0.18), transparent 34%),
-    radial-gradient(circle at 82% 22%, rgba(127,191,232,0.12), transparent 36%),
-    url('assets/images/PROYE 5.png') center center / cover no-repeat;
+    radial-gradient(circle at 10% 16%, rgba(74,159,212,0.12), transparent 25%),
+    radial-gradient(circle at 90% 84%, rgba(26,58,110,0.09), transparent 27%),
+    linear-gradient(180deg, #eef6fb 0%, #fbfdff 48%, #edf6fb 100%);
   position: relative;
   overflow: hidden;
-  color: var(--white);
+  color: var(--royal-dark);
+  padding: 66px 0;
+  isolation: isolate;
 }
 .brand-support-section::before {
   content: '';
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    linear-gradient(rgba(26,58,110,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,58,110,0.035) 1px, transparent 1px);
   background-size: 72px 72px;
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent 78%);
+  opacity: 0.48;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.7), transparent 76%);
   pointer-events: none;
 }
 .brand-support-section::after {
   content: '';
   position: absolute;
-  left: 12%;
-  right: 12%;
-  bottom: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(127,191,232,0.42), transparent);
+  inset: 0;
+  background: linear-gradient(90deg, rgba(238,246,251,0.5), transparent 6%, transparent 94%, rgba(238,246,251,0.5));
   pointer-events: none;
+  z-index: 4;
 }
 .brand-support-inner {
   position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: none;
+  padding: 0;
 }
-.brand-support-header {
-  max-width: 760px;
-  margin: 0 auto 42px;
+.brand-support-focus {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  width: min(800px, 72vw);
+  padding: 58px 60px;
+  transform: translate(-50%, -50%);
   text-align: center;
+  pointer-events: none;
 }
-.brand-support-section .label {
-  color: var(--sky-light);
+.brand-support-focus::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -48px -105px;
+  background: radial-gradient(ellipse at center,
+    rgba(255,255,255,0.86) 0%,
+    rgba(255,255,255,0.76) 34%,
+    rgba(255,255,255,0.48) 51%,
+    rgba(255,255,255,0.2) 67%,
+    rgba(255,255,255,0.05) 80%,
+    transparent 89%);
+  filter: blur(9px);
 }
-.brand-support-title {
-  margin-bottom: 14px;
-  color: var(--white);
-  letter-spacing: 0.08em;
+.brand-support-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 13px;
+  color: var(--sky-dark);
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
+.brand-support-eyebrow::before,
+.brand-support-eyebrow::after {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+.brand-support-title {
+  margin: 0 0 17px;
+  color: var(--royal-dark);
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(2rem, 3.8vw, 3.55rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 0 rgba(255,255,255,0.95), 0 11px 28px rgba(26,58,110,0.15);
+}
 .brand-support-copy {
-  max-width: 620px;
+  max-width: 560px;
   margin: 0 auto;
-  color: rgba(255,255,255,0.68);
-  font-size: 1.02rem;
-  line-height: 1.75;
+  color: var(--text-mid);
+  font-size: 1rem;
+  line-height: 1.65;
 }
 .brand-logo-marquee {
   position: relative;
   overflow: hidden;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  box-shadow: none;
+  height: 484px;
+  width: 100%;
 }
 .brand-logo-marquee::before,
 .brand-logo-marquee::after {
@@ -3064,109 +3021,149 @@ body:not(.preloading) .site-preloader {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 120px;
+  width: clamp(42px, 8vw, 130px);
   z-index: 2;
   pointer-events: none;
 }
 .brand-logo-marquee::before {
   left: 0;
-  background: linear-gradient(90deg, rgba(11,29,53,0.98), transparent);
+  background: linear-gradient(90deg, #eef8fc 0%, rgba(238,248,252,0.72) 38%, transparent 100%);
 }
 .brand-logo-marquee::after {
   right: 0;
-  background: linear-gradient(270deg, rgba(11,29,53,0.98), transparent);
+  background: linear-gradient(270deg, #eef8fc 0%, rgba(238,248,252,0.72) 38%, transparent 100%);
 }
 .brand-logo-track {
-  display: flex;
+  display: grid;
+  grid-template-rows: repeat(4, 104px);
+  grid-auto-flow: column;
+  grid-auto-columns: 172px;
   width: max-content;
-  gap: 18px;
-  padding: 22px 18px;
-  animation: brandLogoTrack 34s linear infinite;
-}
-.brand-logo-marquee:hover .brand-logo-track {
-  animation-play-state: paused;
+  gap: 16px 18px;
+  padding: 10px 0;
+  animation: brandLogoTrack 84s linear infinite;
+  will-change: transform;
 }
 .brand-logo-card {
-  min-width: 210px;
-  height: 96px;
-  border: 0;
-  background: transparent;
+  width: 172px;
+  height: 104px;
+  border: 1px solid rgba(174,201,218,0.28);
+  border-radius: 15px;
+  background: rgba(255,255,255,0.96);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 22px;
+  padding: 15px 17px;
   position: relative;
   isolation: isolate;
+  box-shadow: 0 10px 24px rgba(20,69,99,0.11), 0 2px 7px rgba(20,69,99,0.06), inset 0 1px 0 #fff;
+  overflow: hidden;
+  transform: translateY(var(--brand-offset-y, 0px)) scale(var(--brand-depth-scale, 1));
+  opacity: var(--brand-depth-opacity, 1);
+  filter: blur(var(--brand-depth-blur, 0px));
+  transform-origin: center;
+  will-change: transform, opacity, filter;
+  transition: transform 160ms linear, opacity 160ms linear, filter 160ms linear;
 }
+.brand-logo-card:nth-child(8n + 1) { --brand-depth-scale: 1.03; --brand-offset-y: -4px; }
+.brand-logo-card:nth-child(8n + 2) { --brand-depth-scale: 0.86; --brand-offset-y: 7px; }
+.brand-logo-card:nth-child(8n + 3) { --brand-depth-scale: 0.72; --brand-offset-y: -5px; }
+.brand-logo-card:nth-child(8n + 4) { --brand-depth-scale: 0.94; --brand-offset-y: 4px; }
+.brand-logo-card:nth-child(8n + 5) { --brand-depth-scale: 0.8; --brand-offset-y: -7px; }
+.brand-logo-card:nth-child(8n + 6) { --brand-depth-scale: 1; --brand-offset-y: 5px; }
+.brand-logo-card:nth-child(8n + 7) { --brand-depth-scale: 0.76; --brand-offset-y: -2px; }
+.brand-logo-card:nth-child(8n) { --brand-depth-scale: 0.9; --brand-offset-y: 6px; }
 .brand-logo-card::before {
   content: '';
   position: absolute;
-  z-index: -2;
-  width: 98%;
-  height: 88%;
-  left: 1%;
-  top: 6%;
-  border-radius: 44% 56% 48% 52% / 52% 46% 54% 48%;
-  background: rgba(255,255,255,0.72);
-  filter: blur(20px);
-  opacity: 0.94;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(145deg, rgba(255,255,255,1), rgba(247,251,254,0.93));
 }
 .brand-logo-card::after {
   content: '';
   position: absolute;
-  z-index: -1;
-  width: 90%;
-  height: 72%;
-  left: 5%;
-  top: 14%;
-  border-radius: 46% 54% 44% 56% / 54% 44% 56% 46%;
-  background: rgba(255,255,255,0.94);
-  filter: blur(2px);
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.7), transparent 44%);
+  pointer-events: none;
 }
 .brand-logo-card img {
   position: relative;
   z-index: 1;
   display: block;
-  max-width: 100%;
-  max-height: 76px;
+  max-width: 92%;
+  max-height: 74px;
   object-fit: contain;
-  filter: drop-shadow(0 7px 15px rgba(0,0,0,0.28));
-}
-.brand-support-closing {
-  margin-top: 34px;
-  text-align: center;
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(1.3rem, 2.55vw, 2.05rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  background: linear-gradient(180deg, #ffffff 0%, #d8f5ff 30%, #55ccf5 66%, #f0fcff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  text-shadow:
-    0 1px 0 #ffffff,
-    0 2px 0 #83d8f5,
-    0 4px 0 #1b6d9f,
-    0 6px 0 #0a3b69,
-    0 14px 24px rgba(0,0,0,0.48);
-  -webkit-text-stroke: 0.35px rgba(255,255,255,0.72);
-  filter: drop-shadow(0 0 14px rgba(127,191,232,0.58));
+  filter: drop-shadow(0 5px 9px rgba(10,47,76,0.18));
 }
 @keyframes brandLogoTrack {
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  to { transform: translateX(calc(-50% - 9px)); }
 }
 @media (max-width: 768px) {
-  .brand-support-header { margin-bottom: 30px; }
-  .brand-logo-card { min-width: 168px; height: 76px; padding: 0 18px; }
+  .brand-support-section { padding: 44px 0; }
+  .brand-logo-marquee { height: 390px; }
+  .brand-logo-track {
+    grid-template-rows: repeat(4, 82px);
+    grid-auto-columns: 140px;
+    gap: 14px 18px;
+    padding: 10px 0;
+    animation-duration: 68s;
+  }
+  .brand-logo-card {
+    width: 140px;
+    height: 82px;
+    padding: 11px 13px;
+    border-radius: 12px;
+  }
+  .brand-logo-card img { max-height: 58px; }
   .brand-logo-marquee::before,
-  .brand-logo-marquee::after { width: 54px; }
+  .brand-logo-marquee::after { width: 36px; }
+  .brand-support-focus {
+    width: 94vw;
+    padding: 46px 22px;
+  }
+  .brand-support-focus::before {
+    inset: -25px -9px;
+    background: radial-gradient(ellipse at center,
+      rgba(255,255,255,0.84) 0%,
+      rgba(255,255,255,0.7) 46%,
+      rgba(255,255,255,0.4) 64%,
+      rgba(255,255,255,0.13) 81%,
+      transparent 94%);
+  }
+  .brand-support-title {
+    font-size: clamp(1.8rem, 9vw, 2.75rem);
+    letter-spacing: -0.04em;
+  }
+  .brand-support-copy {
+    max-width: 520px;
+    padding: 0 10px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .brand-logo-track { animation: none; }
+}
+
+/* The water texture now belongs to the closing invitation. */
+#cta {
+  background:
+    linear-gradient(145deg, rgba(7,24,45,0.9) 0%, rgba(10,31,58,0.79) 48%, rgba(7,18,33,0.92) 100%),
+    radial-gradient(circle at 18% 10%, rgba(74,159,212,0.2), transparent 34%),
+    radial-gradient(circle at 82% 22%, rgba(127,191,232,0.14), transparent 36%),
+    url('assets/images/PROYE 5.png') center center / cover no-repeat;
+  background-attachment: scroll;
+}
+#cta::before {
+  background:
+    linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px),
+    radial-gradient(ellipse at 20% 50%, rgba(74,159,212,0.16) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(26,58,110,0.38) 0%, transparent 60%);
+  background-size: 72px 72px, 72px 72px, auto, auto;
 }
 
 /* ── HERO cinematic video override ── */
@@ -3739,41 +3736,6 @@ body.hero-ready #hero .hero-stats { transition-delay: 360ms; }
     font-size: 0.88rem;
   }
 
-  .brand-support-header {
-    margin-bottom: 24px;
-  }
-
-  .brand-support-title {
-    letter-spacing: 0.04em;
-  }
-
-  .brand-logo-marquee {
-    border-radius: 22px;
-  }
-
-  .brand-logo-track {
-    gap: 14px;
-    padding: 18px 14px;
-  }
-
-  .brand-logo-card {
-    min-width: 150px;
-    height: 70px;
-    padding: 0 16px;
-    border-radius: 16px;
-  }
-
-  .brand-logo-text {
-    font-size: 0.78rem;
-    letter-spacing: 0.05em;
-  }
-
-  .brand-support-benefit {
-    padding: 16px 14px;
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-  }
-
   #portfolio.projects-premium-section .projects-premium-header {
     margin-bottom: 22px;
   }
@@ -3860,15 +3822,6 @@ body.hero-ready #hero .hero-stats { transition-delay: 360ms; }
   #why .why-purpose-label {
     font-size: 0.72rem;
     letter-spacing: 0.12em;
-  }
-
-  .test-card {
-    padding: 24px 20px;
-  }
-
-  .test-quote {
-    font-size: 1.04rem;
-    margin-bottom: 18px;
   }
 
   #cta .cta-inner {
@@ -4342,14 +4295,9 @@ body.hero-ready #hero .hero-stats { transition-delay: 360ms; }
 <!-- --- BRAND SUPPORT --- -->
 <section id="brand-support" class="section brand-support-section">
   <div class="container brand-support-inner">
-    <div class="brand-support-header fade-up visible">
-      <h2 class="brand-support-title">MARCAS QUE DISTRIBUIMOS</h2>
-      <p class="brand-support-copy">Trabajamos con marcas reconocidas para garantizar calidad, durabilidad y respaldo t&eacute;cnico en cada proyecto.</p>
-    </div>
-
     <div class="brand-logo-marquee fade-up visible" aria-label="Marcas que distribuimos">
       <div class="brand-logo-track">
-        <div class="brand-logo-card"><img src="assets/images/LOGOS/web/astral-pool.png" alt="AstralPool"></div>
+        <div class="brand-logo-card"><img src="assets/images/LOGOS/ASTRAL POOL LOGO.jpg" alt="AstralPool"></div>
         <div class="brand-logo-card"><img src="assets/images/LOGOS/web/hayward.png" alt="Hayward"></div>
         <div class="brand-logo-card"><img src="assets/images/LOGOS/web/biolim.png" alt="Biolim"></div>
         <div class="brand-logo-card"><img src="assets/images/LOGOS/web/blue-devil.png" alt="Blue Devil"></div>
@@ -4359,7 +4307,7 @@ body.hero-ready #hero .hero-stats { transition-delay: 360ms; }
         <div class="brand-logo-card"><img src="assets/images/LOGOS/web/panda.png" alt="Panda"></div>
         <div class="brand-logo-card"><img src="assets/images/LOGOS/web/pentair.png" alt="Pentair"></div>
         <div class="brand-logo-card"><img src="assets/images/LOGOS/web/spin.png" alt="Spin"></div>
-        <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/astral-pool.png" alt=""></div>
+        <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/ASTRAL POOL LOGO.jpg" alt=""></div>
         <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/hayward.png" alt=""></div>
         <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/biolim.png" alt=""></div>
         <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/blue-devil.png" alt=""></div>
@@ -4371,8 +4319,11 @@ body.hero-ready #hero .hero-stats { transition-delay: 360ms; }
         <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/spin.png" alt=""></div>
       </div>
     </div>
-
-    <p class="brand-support-closing fade-up visible">Todo en un solo lugar</p>
+    <div class="brand-support-focus">
+      <span class="brand-support-eyebrow">Marcas que distribuimos</span>
+      <h2 class="brand-support-title">Todo en un solo lugar</h2>
+      <p class="brand-support-copy">Trabajamos con marcas reconocidas para garantizar calidad, durabilidad y respaldo t&eacute;cnico en cada proyecto.</p>
+    </div>
   </div>
 </section>
 
@@ -5365,51 +5316,6 @@ body.hero-ready #hero .hero-stats { transition-delay: 360ms; }
   </div>
 </section>
 
-<!-- ─── TESTIMONIALS ─── -->
-<section id="testimonials" class="section">
-  <div class="container">
-    <div class="section-header fade-up visible">
-      <span class="label">Testimonios</span>
-      <h2>Lo que dicen<br>nuestros clientes</h2>
-    </div>
-    <div class="test-grid">
-      <div class="test-card fade-up visible">
-        <div class="test-stars">★★★★★</div>
-        <p class="test-quote">"Llevamos 3 años con Calidad 21 en nuestro condominio. El agua siempre está cristalina y su equipo responde muy rápido ante cualquier falla. Son de total confianza."</p>
-        <div class="test-author">
-          <div class="test-avatar">MV</div>
-          <div>
-            <span class="test-name">Marina V.</span>
-            <span class="test-role">Administradora de condominio · Coyoacán</span>
-          </div>
-        </div>
-      </div>
-      <div class="test-card fade-up visible">
-        <div class="test-stars">★★★★★</div>
-        <p class="test-quote">"Rehabilitaron por completo mi alberca que llevaba años sin uso. El resultado fue increíble, mejor de lo que esperaba. Profesionales de verdad, con muy buen precio."</p>
-        <div class="test-author">
-          <div class="test-avatar">CA</div>
-          <div>
-            <span class="test-name">Carlos A.</span>
-            <span class="test-role">Propietario residencial · Tlalpan</span>
-          </div>
-        </div>
-      </div>
-      <div class="test-card fade-up visible">
-        <div class="test-stars">★★★★★</div>
-        <p class="test-quote">"Instalaron la fuente ornamental de nuestra empresa en tiempo y forma. El diseño hidráulico fue impecable. Ya les contratamos el mantenimiento semestral."</p>
-        <div class="test-author">
-          <div class="test-avatar">RL</div>
-          <div>
-            <span class="test-name">Roberto L.</span>
-            <span class="test-role">Director de operaciones · Pedregal</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ─── FINAL CTA ─── -->
 <section id="cta" class="section">
   <div class="container">
@@ -5602,7 +5508,6 @@ src="assets/images/Calidad21logopng.png" alt="Logo CALIDAD 21" class="nav-logo-i
         <ul class="footer-links">
           <li><a href="#why">Quiénes somos</a></li>
           <li><a href="#portfolio">Proyectos</a></li>
-          <li><a href="#testimonials">Testimonios</a></li>
           <li><a href="#products">Productos</a></li>
           <li><a href="#contact">Contacto</a></li>
         </ul>
@@ -6302,6 +6207,58 @@ function closeMobile() { mobileNav.classList.remove('open'); }
 
   setSlide(0, false);
   start();
+})();
+
+/* Perspective effect for the moving brand wall. */
+(function initBrandLogoDepth() {
+  var section = document.getElementById('brand-support');
+  if (!section) return;
+
+  var track = section.querySelector('.brand-logo-track');
+  if (track && !track.getAttribute('data-flow-ready')) {
+    var originalCards = Array.prototype.slice.call(track.children);
+    for (var repeat = 0; repeat < 3; repeat += 1) {
+      originalCards.forEach(function(card) {
+        var clone = card.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        var cloneImage = clone.querySelector('img');
+        if (cloneImage) cloneImage.setAttribute('alt', '');
+        track.appendChild(clone);
+      });
+    }
+    track.setAttribute('data-flow-ready', 'true');
+  }
+
+  var cards = Array.prototype.slice.call(section.querySelectorAll('.brand-logo-card'));
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var baseScales = [1.03, 0.86, 0.72, 0.94, 0.8, 1, 0.76, 0.9];
+
+  function updateBrandDepth() {
+    var sectionRect = section.getBoundingClientRect();
+    var isVisible = sectionRect.bottom > 0 && sectionRect.top < window.innerHeight;
+
+    if (isVisible) {
+      var viewportCenter = window.innerWidth / 2;
+      var effectRadius = Math.min(window.innerWidth * 0.47, 720);
+
+      cards.forEach(function(card, index) {
+        var rect = card.getBoundingClientRect();
+        var cardCenter = rect.left + rect.width / 2;
+        var distance = Math.abs(cardCenter - viewportCenter);
+        var proximity = Math.max(0, 1 - distance / effectRadius);
+        var eased = proximity * proximity * (3 - 2 * proximity);
+        var baseScale = baseScales[index % baseScales.length];
+
+        card.style.setProperty('--brand-depth-scale', (baseScale * (1 - eased * 0.74)).toFixed(3));
+        card.style.setProperty('--brand-depth-opacity', (1 - eased * 0.86).toFixed(3));
+        card.style.setProperty('--brand-depth-blur', (eased * 1.8).toFixed(2) + 'px');
+      });
+    }
+
+  }
+
+  updateBrandDepth();
+  window.setInterval(updateBrandDepth, 120);
 })();
 
 function sendTrackingEmail(payload) {
