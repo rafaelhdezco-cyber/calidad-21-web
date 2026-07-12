@@ -602,8 +602,14 @@ p { font-size: 1rem; color: var(--text-mid); }
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-bottom: 12px;
+  cursor: grab;
+  overscroll-behavior-x: contain;
 }
 #services .services-scroll-container::-webkit-scrollbar { display: none; }
+#services .services-scroll-container.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
 
 #services .services-grid {
   display: flex;
@@ -736,8 +742,8 @@ p { font-size: 1rem; color: var(--text-mid); }
 /* ── Paddle nav ── */
 #services .services-paddlenav {
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  justify-content: center;
+  gap: 12px;
   margin-top: 28px;
 }
 #services .paddle-btn {
@@ -767,10 +773,14 @@ p { font-size: 1rem; color: var(--text-mid); }
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
   #services .service-card { width: 76vw; min-width: 240px; }
-  #services .services-paddlenav { display: none; }
+  #services .services-paddlenav { margin-top: 22px; }
 }
 @media (max-width: 480px) {
   #services .service-card { width: 85vw; }
+  #services .paddle-btn {
+    width: 42px;
+    height: 42px;
+  }
 }
 
 /* ── Group divider ── */
@@ -912,7 +922,7 @@ p { font-size: 1rem; color: var(--text-mid); }
 .services-modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(7,17,31,0.42);
+  background: rgba(7,17,31,0.54);
   backdrop-filter: blur(18px) saturate(120%);
   -webkit-backdrop-filter: blur(18px) saturate(120%);
 }
@@ -922,7 +932,7 @@ p { font-size: 1rem; color: var(--text-mid); }
   max-height: min(88vh, 820px);
   overflow: auto;
   border-radius: 30px;
-  background: rgba(255,255,255,0.96);
+  background: #fff;
   box-shadow: 0 30px 80px rgba(9,24,41,0.28);
   padding: 48px 48px 42px;
   transform: translateY(20px) scale(0.98);
@@ -972,6 +982,11 @@ p { font-size: 1rem; color: var(--text-mid); }
   margin-bottom: 22px;
   max-width: 11ch;
 }
+.services-modal-title.is-long {
+  font-size: clamp(1.85rem, 3.5vw, 3rem);
+  line-height: 1.04;
+  max-width: 17ch;
+}
 .services-modal-body {
   max-width: 760px;
   font-size: 1rem;
@@ -986,6 +1001,26 @@ p { font-size: 1rem; color: var(--text-mid); }
   grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.85fr);
   gap: 40px;
   align-items: start;
+}
+.services-modal-side {
+  display: grid;
+  gap: 18px;
+}
+.services-modal-visual {
+  min-height: 230px;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+}
+.services-modal-visual[hidden] { display: none; }
+.services-modal-visual img {
+  display: block;
+  width: 100%;
+  height: 245px;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 22px rgba(26,58,110,0.14));
 }
 .services-modal-points {
   list-style: none;
@@ -1023,6 +1058,8 @@ p { font-size: 1rem; color: var(--text-mid); }
   #services .services-cta-inner .btn { width: 100%; justify-content: center; }
   .services-modal-dialog { padding: 34px 22px 28px; border-radius: 24px; }
   .services-modal-grid { grid-template-columns: 1fr; gap: 28px; }
+  .services-modal-visual { min-height: 190px; }
+  .services-modal-visual img { height: 205px; }
   .services-modal-close { top: 16px; right: 16px; }
   .services-modal-title { max-width: none; }
 }
@@ -2489,17 +2526,17 @@ p { font-size: 1rem; color: var(--text-mid); }
   width: 100%;
   z-index: 1000;
 
-  background: rgba(10, 25, 45, 0.35);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(10, 25, 45, 0.18);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: none;
 }
 
 #navbar.scrolled {
-  background: rgba(10, 25, 45, 0.45);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.52) !important;
+  backdrop-filter: blur(14px) saturate(125%);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
 }
 
 
@@ -3014,12 +3051,12 @@ body:not(.preloading) .site-preloader {
 .brand-logo-marquee {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(127,191,232,0.18);
-  border-radius: 28px;
-  background: rgba(255,255,255,0.055);
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 24px 70px rgba(0,0,0,0.22);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
 }
 .brand-logo-marquee::before,
 .brand-logo-marquee::after {
@@ -3050,57 +3087,73 @@ body:not(.preloading) .site-preloader {
   animation-play-state: paused;
 }
 .brand-logo-card {
-  min-width: 190px;
-  height: 86px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.9);
+  min-width: 210px;
+  height: 96px;
+  border: 0;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 24px;
-  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+  padding: 10px 22px;
+  position: relative;
+  isolation: isolate;
 }
-.brand-logo-text {
+.brand-logo-card::before {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  width: 98%;
+  height: 88%;
+  left: 1%;
+  top: 6%;
+  border-radius: 44% 56% 48% 52% / 52% 46% 54% 48%;
+  background: rgba(255,255,255,0.72);
+  filter: blur(20px);
+  opacity: 0.94;
+}
+.brand-logo-card::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 90%;
+  height: 72%;
+  left: 5%;
+  top: 14%;
+  border-radius: 46% 54% 44% 56% / 54% 44% 56% 46%;
+  background: rgba(255,255,255,0.94);
+  filter: blur(2px);
+}
+.brand-logo-card img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: 100%;
+  max-height: 76px;
+  object-fit: contain;
+  filter: drop-shadow(0 7px 15px rgba(0,0,0,0.28));
+}
+.brand-support-closing {
+  margin-top: 34px;
+  text-align: center;
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: clamp(1.3rem, 2.55vw, 2.05rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
-  color: var(--royal-dark);
-  text-align: center;
-  line-height: 1.3;
-}
-.brand-support-benefits {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 28px;
-}
-.brand-support-benefit {
-  min-height: 84px;
-  border: 1px solid rgba(127,191,232,0.18);
-  border-radius: 20px;
-  background: rgba(255,255,255,0.065);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 18px;
-  color: rgba(255,255,255,0.84);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-align: center;
-  text-transform: uppercase;
-}
-.brand-support-benefit svg {
-  width: 20px;
-  height: 20px;
-  flex: 0 0 auto;
-  stroke: var(--sky-light);
+  background: linear-gradient(180deg, #ffffff 0%, #d8f5ff 30%, #55ccf5 66%, #f0fcff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 1px 0 #ffffff,
+    0 2px 0 #83d8f5,
+    0 4px 0 #1b6d9f,
+    0 6px 0 #0a3b69,
+    0 14px 24px rgba(0,0,0,0.48);
+  -webkit-text-stroke: 0.35px rgba(255,255,255,0.72);
+  filter: drop-shadow(0 0 14px rgba(127,191,232,0.58));
 }
 @keyframes brandLogoTrack {
   from { transform: translateX(0); }
@@ -3111,11 +3164,835 @@ body:not(.preloading) .site-preloader {
   .brand-logo-card { min-width: 168px; height: 76px; padding: 0 18px; }
   .brand-logo-marquee::before,
   .brand-logo-marquee::after { width: 54px; }
-  .brand-support-benefits { grid-template-columns: 1fr; }
-  .brand-support-benefit { min-height: 72px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .brand-logo-track { animation: none; }
+}
+
+/* ── HERO cinematic video override ── */
+#hero {
+  min-height: 100vh;
+  min-height: 760px;
+  background: #f7fbfd;
+}
+#hero .hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(1.02) translate3d(0, 0, 0);
+  transition:
+    opacity 1.3s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.3s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity;
+}
+#hero .hero-media::before,
+#hero .hero-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+#hero .hero-media::before {
+  background: linear-gradient(90deg, rgba(8, 24, 38, 0.58) 0%, rgba(8, 24, 38, 0.34) 38%, rgba(8, 24, 38, 0.08) 72%, rgba(8, 24, 38, 0) 100%);
+  z-index: 2;
+}
+#hero .hero-media::after {
+  background: linear-gradient(180deg, rgba(255,255,255,0) 60%, rgba(247,251,253,0.95) 100%);
+  z-index: 3;
+}
+#hero .hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 1;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+#hero .hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 1;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+#hero .hero-content {
+  padding-top: clamp(132px, 14vh, 172px);
+  padding-bottom: clamp(112px, 16vh, 168px);
+}
+#hero .hero-inner {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  align-items: flex-start;
+}
+#hero .hero-copy {
+  position: relative;
+  z-index: 5;
+  max-width: 720px;
+  margin-left: min(8vw, 88px);
+  text-align: left;
+  transform-origin: left top;
+  will-change: transform, opacity, filter;
+}
+#hero .hero-copy-title,
+#hero .hero-copy-sub,
+#hero .hero-actions,
+#hero .hero-stats {
+  opacity: 0;
+  transform: translateY(34px);
+  filter: blur(8px);
+  transition:
+    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body.hero-ready #hero .hero-media {
+  opacity: 1;
+  transform: scale(1) translate3d(0, 0, 0);
+}
+body.hero-ready #hero .hero-copy-title,
+body.hero-ready #hero .hero-copy-sub,
+body.hero-ready #hero .hero-actions,
+body.hero-ready #hero .hero-stats {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+body.hero-ready #hero .hero-copy-sub { transition-delay: 160ms; }
+body.hero-ready #hero .hero-actions { transition-delay: 260ms; }
+body.hero-ready #hero .hero-stats { transition-delay: 360ms; }
+#hero .hero-copy-title {
+  margin: 0;
+  font-size: clamp(3.4rem, 8vw, 6.8rem);
+  line-height: 0.94;
+  font-weight: 400;
+  color: rgba(255,255,255,0.98);
+  text-wrap: balance;
+}
+#hero .hero-copy-title strong {
+  display: block;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+#hero .hero-copy-title em {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(255,255,255,0.98);
+}
+#hero .hero-copy-sub {
+  margin: 28px 0 0;
+  max-width: 640px;
+  font-size: 1.08rem;
+  line-height: 1.78;
+  color: rgba(255,255,255,0.82);
+}
+#hero .hero-actions {
+  margin-top: 32px;
+  gap: 16px;
+}
+#hero .hero-actions .btn {
+  min-width: 218px;
+  justify-content: center;
+}
+#hero .hero-stats {
+  margin-top: 40px;
+  padding-top: 0;
+  border-top: none;
+  gap: 40px;
+}
+#hero .hero-stats::before {
+  display: none;
+}
+#hero .hero-stat-num {
+  color: rgba(255,255,255,0.98);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+#hero .hero-stat-label {
+  color: rgba(255,255,255,0.72);
+}
+#hero .hero-visual,
+#hero .hero-glass-panel::before,
+#hero .hero-glass-panel::after,
+#hero .hero-h1::after {
+  display: none !important;
+}
+@media (max-width: 1024px) {
+  #hero .hero-copy {
+    max-width: 640px;
+    margin-left: min(5vw, 42px);
+  }
+}
+@media (max-width: 768px) {
+  #hero {
+    min-height: 88vh;
+  }
+  #hero .hero-media::before {
+    background: linear-gradient(90deg, rgba(8, 24, 38, 0.72) 0%, rgba(8, 24, 38, 0.46) 48%, rgba(8, 24, 38, 0.14) 82%, rgba(8, 24, 38, 0) 100%);
+  }
+  #hero .hero-media::after {
+    background: linear-gradient(180deg, rgba(255,255,255,0) 58%, rgba(247,251,253,0.96) 100%);
+  }
+  #hero .hero-content {
+    padding-top: 120px;
+    padding-bottom: 96px;
+  }
+  #hero .hero-copy {
+    max-width: 100%;
+    margin-left: 0;
+  }
+  #hero .hero-copy-title {
+    font-size: clamp(2.8rem, 12vw, 4.6rem);
+    line-height: 0.98;
+  }
+  #hero .hero-copy-sub {
+    margin-top: 22px;
+    font-size: 0.98rem;
+    line-height: 1.72;
+  }
+  #hero .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  #hero .hero-actions .btn {
+    min-width: min(100%, 280px);
+  }
+  #hero .hero-stats {
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #hero .hero-media,
+  #hero .hero-copy,
+  #hero .hero-copy-title,
+  #hero .hero-copy-sub,
+  #hero .hero-actions,
+  #hero .hero-stats {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* --- Responsive refinement: preserve desktop, improve mobile/tablet --- */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .container {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  .section {
+    padding: 78px 0;
+  }
+
+  .section-header {
+    margin-bottom: 52px;
+  }
+
+  #navbar .nav-inner {
+    gap: 18px;
+  }
+
+  .nav-logo-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-logo-name {
+    font-size: 1.12rem;
+  }
+
+  #hero .hero-content {
+    padding-top: clamp(118px, 14vw, 152px);
+    padding-bottom: clamp(82px, 11vw, 118px);
+  }
+
+  #hero .hero-copy {
+    max-width: 620px;
+  }
+
+  #hero .hero-copy-title {
+    font-size: clamp(3rem, 6.4vw, 5.2rem);
+  }
+
+  #hero .hero-copy-sub {
+    max-width: 58ch;
+    font-size: 1rem;
+  }
+
+  #hero .hero-actions .btn {
+    min-width: 198px;
+  }
+
+  #hero .hero-stats {
+    gap: 24px;
+  }
+
+  .trust-inner {
+    gap: 24px;
+  }
+
+  #services .service-card {
+    width: min(46vw, 340px);
+    min-width: 300px;
+  }
+
+  .brand-support-benefits {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .brand-support-benefit:last-child {
+    grid-column: 1 / -1;
+  }
+
+  #portfolio.projects-premium-section .projects-premium-carousel {
+    width: 100%;
+  }
+
+  #portfolio.projects-premium-section .projects-premium-viewport {
+    height: clamp(410px, 54vw, 500px);
+  }
+
+  #portfolio.projects-premium-section .projects-premium-card {
+    width: min(62vw, 470px);
+  }
+
+  .contact-social-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px !important;
+  }
+
+  .contact-social-actions .btn {
+    flex: 1 1 calc(50% - 6px);
+    justify-content: center;
+    min-width: 220px;
+  }
+
+  .contact-detail-text {
+    min-width: 0;
+  }
+
+  .contact-detail-text a,
+  .contact-detail-text span {
+    overflow-wrap: anywhere;
+  }
+
+  .footer-bottom {
+    flex-wrap: wrap;
+    gap: 10px 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .container {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .section {
+    padding: 56px 0;
+  }
+
+  .section-sm {
+    padding: 44px 0;
+  }
+
+  .label {
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+  }
+
+  h2 {
+    font-size: clamp(1.9rem, 10vw, 2.8rem);
+    line-height: 1.06;
+  }
+
+  p {
+    font-size: 0.97rem;
+  }
+
+  .section-header {
+    margin-bottom: 40px;
+  }
+
+  .section-header p,
+  .brand-support-copy,
+  #portfolio.projects-premium-section .projects-premium-header p,
+  #why .why-intro-copy p,
+  #why .why-trust-copy p,
+  #why .why-purpose-block p,
+  .contact-info p,
+  .cta-inner p {
+    font-size: 0.96rem;
+    line-height: 1.7;
+  }
+
+  #navbar {
+    padding: 14px 0;
+  }
+
+  #navbar.scrolled {
+    padding: 10px 0;
+  }
+
+  .nav-inner {
+    gap: 12px;
+  }
+
+  .nav-logo {
+    gap: 10px;
+    min-width: 0;
+    max-width: calc(100% - 52px);
+  }
+
+  .nav-logo-img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .nav-logo-name {
+    font-size: 1rem;
+  }
+
+  .nav-logo-sub {
+    font-size: 0.52rem;
+    letter-spacing: 0.16em;
+  }
+
+  .hamburger {
+    padding: 2px;
+  }
+
+  .mobile-nav {
+    gap: 22px;
+    padding: 96px 24px 32px;
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+
+  .mobile-nav a {
+    width: 100%;
+    text-align: center;
+    font-size: clamp(1.5rem, 8vw, 1.9rem);
+  }
+
+  .mobile-nav .btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px !important;
+  }
+
+  #hero {
+    min-height: 92svh;
+  }
+
+  #hero .hero-content {
+    padding-top: 108px;
+    padding-bottom: 72px;
+  }
+
+  #hero .hero-copy {
+    max-width: 100%;
+  }
+
+  #hero .hero-copy-title {
+    font-size: clamp(2.35rem, 13vw, 4rem);
+    line-height: 0.98;
+  }
+
+  #hero .hero-copy-sub {
+    margin-top: 18px;
+    max-width: 100%;
+    font-size: 0.96rem;
+    line-height: 1.68;
+  }
+
+  #hero .hero-actions {
+    width: 100%;
+    gap: 12px;
+  }
+
+  #hero .hero-actions .btn {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 52px;
+    padding-left: 20px;
+    padding-right: 20px;
+    justify-content: center;
+  }
+
+  #hero .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 16px;
+    margin-top: 28px;
+  }
+
+  .hero-stat-num {
+    font-size: 2.15rem;
+  }
+
+  .hero-stat-label {
+    font-size: 0.78rem;
+  }
+
+  #trust {
+    padding: 20px 0;
+  }
+
+  .trust-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: 14px;
+  }
+
+  .trust-item {
+    width: 100%;
+    font-size: 0.83rem;
+  }
+
+  #problem {
+    padding: 56px 0;
+  }
+
+  .problem-grid {
+    gap: 28px;
+  }
+
+  .problem-card {
+    padding: 18px 18px;
+    border-radius: 12px;
+  }
+
+  .problem-text p {
+    margin-bottom: 14px;
+  }
+
+  .problem-text .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  #services .services-grid {
+    gap: 14px;
+    padding: 4px 2px 12px;
+  }
+
+  #services .service-card {
+    width: 86vw;
+    min-width: min(86vw, 290px);
+    padding: 26px 20px 66px;
+  }
+
+  #services .service-card h3 {
+    font-size: 1.05rem;
+  }
+
+  #services .service-card p {
+    font-size: 0.86rem;
+  }
+
+  #services .service-list li {
+    font-size: 0.8rem;
+  }
+
+  #services .service-card-link {
+    font-size: 0.8rem;
+  }
+
+  #services .service-plus-btn {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  #services .services-cta-inner {
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+
+  #services .services-cta-copy h3 {
+    font-size: 1.08rem;
+  }
+
+  #services .services-cta-copy p {
+    font-size: 0.88rem;
+  }
+
+  .brand-support-header {
+    margin-bottom: 24px;
+  }
+
+  .brand-support-title {
+    letter-spacing: 0.04em;
+  }
+
+  .brand-logo-marquee {
+    border-radius: 22px;
+  }
+
+  .brand-logo-track {
+    gap: 14px;
+    padding: 18px 14px;
+  }
+
+  .brand-logo-card {
+    min-width: 150px;
+    height: 70px;
+    padding: 0 16px;
+    border-radius: 16px;
+  }
+
+  .brand-logo-text {
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+
+  .brand-support-benefit {
+    padding: 16px 14px;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  #portfolio.projects-premium-section .projects-premium-header {
+    margin-bottom: 22px;
+  }
+
+  #portfolio.projects-premium-section .projects-premium-header h2 {
+    font-size: clamp(2rem, 11vw, 3rem);
+  }
+
+  #portfolio.projects-premium-section .projects-filter-pills {
+    gap: 10px;
+    margin-left: -18px;
+    margin-right: -18px;
+    margin-bottom: 24px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  #portfolio.projects-premium-section .projects-filter-pill {
+    min-height: 40px;
+    padding: 0 16px;
+    font-size: 0.76rem;
+  }
+
+  #portfolio.projects-premium-section .projects-premium-carousel {
+    width: 100%;
+  }
+
+  #portfolio.projects-premium-section .projects-premium-viewport {
+    height: 360px;
+  }
+
+  #portfolio.projects-premium-section .projects-premium-card {
+    width: 84vw;
+    height: 304px;
+    border-radius: 22px;
+  }
+
+  #portfolio.projects-premium-section .projects-card-content {
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+  }
+
+  #portfolio.projects-premium-section .projects-card-category {
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    font-size: 0.62rem;
+  }
+
+  #portfolio.projects-premium-section .projects-card-content h3 {
+    font-size: clamp(1.25rem, 6.2vw, 1.8rem);
+  }
+
+  #portfolio.projects-premium-section .projects-card-content p {
+    font-size: 0.84rem;
+    line-height: 1.4;
+  }
+
+  #portfolio.projects-premium-section .projects-premium-controls {
+    margin-top: 24px;
+  }
+
+  #why .why-section-shell {
+    gap: 18px;
+  }
+
+  #why .why-intro-metrics,
+  #why .why-trust-points {
+    grid-template-columns: 1fr;
+  }
+
+  #why .why-metric {
+    padding: 16px 16px;
+  }
+
+  #why .why-metric strong {
+    font-size: 1.8rem;
+  }
+
+  #why .why-purpose-head {
+    margin-bottom: 18px;
+  }
+
+  #why .why-purpose-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+  }
+
+  .test-card {
+    padding: 24px 20px;
+  }
+
+  .test-quote {
+    font-size: 1.04rem;
+    margin-bottom: 18px;
+  }
+
+  #cta .cta-inner {
+    max-width: 100%;
+  }
+
+  .cta-actions {
+    gap: 12px;
+  }
+
+  .cta-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cta-contact {
+    width: 100%;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .cta-contact-item {
+    width: 100%;
+    font-size: 0.88rem;
+  }
+
+  .contact-grid {
+    gap: 28px;
+  }
+
+  .contact-info h2 {
+    margin-bottom: 10px;
+  }
+
+  .contact-details {
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .contact-detail {
+    gap: 12px;
+  }
+
+  .contact-detail-text {
+    min-width: 0;
+  }
+
+  .contact-detail-text a,
+  .contact-detail-text span {
+    font-size: 0.9rem;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-form-wrap {
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  #service {
+    font-size: 16px !important;
+  }
+
+  .contact-social-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px !important;
+  }
+
+  .contact-social-actions .btn {
+    width: 100%;
+    justify-content: center;
+    padding-left: 18px;
+    padding-right: 18px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  #footer {
+    padding: 52px 0 28px;
+  }
+
+  .footer-top {
+    gap: 28px;
+    margin-bottom: 32px;
+  }
+
+  .footer-col h4 {
+    margin-bottom: 12px;
+  }
+
+  .footer-links {
+    gap: 8px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .footer-copy {
+    font-size: 0.78rem;
+  }
+
+  .wa-bubble {
+    display: none;
+  }
+
+  #wa-float {
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .wa-btn {
+    width: 56px;
+    height: 56px;
+  }
 }
 </style>
 <script src="assets/js/gsap.min.js"></script>
@@ -3175,19 +4052,23 @@ body:not(.preloading) .site-preloader {
 
 <!-- ─── HERO ─── -->
 <section id="hero">
-  <div class="hero-real-bg" style="position:absolute;inset:0;z-index:0;overflow:hidden;">
-    <img src="assets/images/La isla santa fe portada.png" alt="Pool background" style="width:100%;height:100%;object-fit:cover;object-position:center;">
-    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0) 54%,rgba(255,255,255,0.78) 88%,rgba(255,255,255,1) 100%);"></div>
+  <div class="hero-media" data-hero-media aria-hidden="true">
+    <img class="hero-image" src="assets/images/La isla santa fe portada.png" alt="" loading="eager" decoding="async">
   </div>
   <div class="container hero-content">
     <div class="hero-inner">
-      <div class="hero-text hero-glass-panel">
-        <h1 class="hero-h1">Calidad<br>es sin&oacute;nimo<br>
-          <em>de tranquilidad</em>
-        </h1>
-        <p class="hero-sub">
+      <div class="hero-copy" data-hero-copy>
+        <h1 class="hero-copy-title"><strong>CALIDAD,</strong><em>sin&oacute;nimo de tranquilidad</em></h1>
+        <p class="hero-copy-sub">
           Mantenimiento, rehabilitaci&oacute;n y dise&ntilde;o de albercas, fuentes y jacuzzis, con venta de qu&iacute;micos, equipos y capacitaci&oacute;n t&eacute;cnica especializada.
         </p>
+        <div class="hero-actions">
+          <a href="https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20un%20servicio%20de%20Calidad%2021" class="btn btn-wa" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
+            Cotizar ahora
+          </a>
+          <a href="#portfolio" class="btn btn-glass">Ver proyectos</a>
+        </div>
         <div class="hero-stats">
           <div class="hero-stat">
             <div class="hero-stat-num">25<span>+</span></div>
@@ -3197,10 +4078,6 @@ body:not(.preloading) .site-preloader {
             <div class="hero-stat-num">100<span>+</span></div>
             <div class="hero-stat-label">Proyectos completados</div>
           </div>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <div class="hero-img-frame">          
         </div>
       </div>
     </div>
@@ -3250,25 +4127,25 @@ body:not(.preloading) .site-preloader {
   <div class="container">
     <div class="section-header fade-up visible">
       <span class="label">Nuestros servicios</span>
-      <h2>Todo lo que tu alberca necesita,<br>en un solo lugar</h2>
-      <p>Desde el mantenimiento preventivo hasta la rehabilitación completa. Trabajamos con los más altos estándares técnicos.</p>
+      <h2>Todo para tu piscina,<br>jacuzzi y fuente</h2>
+      <p>Qu&iacute;micos, equipos, accesorios, remodelaci&oacute;n y servicio t&eacute;cnico especializado, todo en un solo lugar.</p>
     </div>
     <div class="services-gallery">
       <div class="services-scroll-container" id="servicesScroll">
         <div class="services-grid">
 
-          <div class="service-card service-card--product fade-up visible" data-service-modal="productos" role="button" tabindex="0">
+          <div class="service-card service-card--product fade-up visible" data-service-modal="venta-quimicos" role="button" tabindex="0">
             <div class="service-icon service-icon--product" aria-hidden="true"></div>
-            <h3>Productos</h3>
-            <p>Venta de productos qu&iacute;micos, equipos y accesorios para mantener tu alberca estable, segura y funcional.</p>
+            <h3>Venta de qu&iacute;micos</h3>
+            <p>El agua clara no siempre es perfecta. Te ayudamos a lograr el balance correcto para una operaci&oacute;n segura.</p>
             <ul class="service-list">
-              <li>Qu&iacute;micos y tratamiento</li>
-              <li>Bombas, filtros y calentadores</li>
-              <li>Accesorios de limpieza</li>
-              <li>Asesor&iacute;a de uso</li>
+              <li>Tratamiento y desinfecci&oacute;n</li>
+              <li>Balance de pH y alcalinidad</li>
+              <li>Control de algas</li>
+              <li>Asesor&iacute;a de dosificaci&oacute;n</li>
             </ul>
             <a href="https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20productos%20para%20mi%20alberca" class="service-card-link" target="_blank">Cotizar &rarr;</a>
-            <button class="service-plus-btn" aria-label="M&aacute;s informaci&oacute;n sobre Productos">
+            <button class="service-plus-btn" aria-label="M&aacute;s informaci&oacute;n sobre venta de qu&iacute;micos">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path d="m24 16.5h-4.5v-4.5c0-.8286-.6719-1.5-1.5-1.5s-1.5.6714-1.5 1.5v4.5h-4.5c-.8281 0-1.5.6714-1.5 1.5s.6719 1.5 1.5 1.5h4.5v4.5c0 .8286.6719 1.5 1.5 1.5s1.5-.6714 1.5-1.5v-4.5h4.5c.8281 0 1.5-.6714 1.5-1.5s-.6719-1.5-1.5-1.5z"/></svg>
             </button>
           </div>
@@ -3305,34 +4182,34 @@ body:not(.preloading) .site-preloader {
             </button>
           </div>
 
-          <div class="service-card fade-up visible" data-service-modal="rehabilitacion" role="button" tabindex="0">
+          <div class="service-card fade-up visible" data-service-modal="rehabilitacion-equipos" role="button" tabindex="0">
             <div class="service-icon" aria-hidden="true"></div>
-            <h3>Recuperaci&oacute;n</h3>
-            <p>Recuperamos albercas en mal estado. Diagn&oacute;stico integral y plan de rehabilitaci&oacute;n detallado.</p>
+            <h3>Revisi&oacute;n, rehabilitaci&oacute;n y reparaci&oacute;n t&eacute;cnica de equipos</h3>
+            <p>Recuperamos el coraz&oacute;n de tu piscina con reparaci&oacute;n y rehabilitaci&oacute;n t&eacute;cnica especializada.</p>
             <ul class="service-list">
-              <li>Diagn&oacute;stico t&eacute;cnico</li>
-              <li>Impermeabilizaci&oacute;n</li>
-              <li>Cambio de mosaico</li>
-              <li>Renovaci&oacute;n completa</li>
+              <li>Revisi&oacute;n de funcionamiento</li>
+              <li>Rehabilitaci&oacute;n de componentes</li>
+              <li>Reparaci&oacute;n especializada</li>
+              <li>Pruebas de operaci&oacute;n</li>
             </ul>
-            <a href="https://wa.me/5215550602915?text=Hola%2C%20me%20interesa%20cotizar%20Recuperaci%C3%B3n%20de%20alberca" class="service-card-link" target="_blank">Cotizar servicio &rarr;</a>
-            <button class="service-plus-btn" aria-label="M&aacute;s informaci&oacute;n sobre Recuperaci&oacute;n">
+            <a href="https://wa.me/5215550602915?text=Hola%2C%20quiero%20revisar%20o%20reparar%20mis%20equipos%20de%20alberca" class="service-card-link" target="_blank">Cotizar servicio &rarr;</a>
+            <button class="service-plus-btn" aria-label="M&aacute;s informaci&oacute;n sobre rehabilitaci&oacute;n y reparaci&oacute;n de equipos">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path d="m24 16.5h-4.5v-4.5c0-.8286-.6719-1.5-1.5-1.5s-1.5.6714-1.5 1.5v4.5h-4.5c-.8281 0-1.5.6714-1.5 1.5s.6719 1.5 1.5 1.5h4.5v4.5c0 .8286.6719 1.5 1.5 1.5s1.5-.6714 1.5-1.5v-4.5h4.5c.8281 0 1.5-.6714 1.5-1.5s-.6719-1.5-1.5-1.5z"/></svg>
             </button>
           </div>
 
-          <div class="service-card fade-up visible" data-service-modal="reparacion-equipo" role="button" tabindex="0">
+          <div class="service-card fade-up visible" data-service-modal="venta-accesorios" role="button" tabindex="0">
             <div class="service-icon" aria-hidden="true"></div>
-            <h3>Reparaci&oacute;n de equipo</h3>
-            <p>Diagn&oacute;stico y reparaci&oacute;n de filtros, calentadores y bombas con refacciones de calidad.</p>
+            <h3>Venta de accesorios</h3>
+            <p>Todo para una limpieza eficiente, con soluciones manuales y autom&aacute;ticas.</p>
             <ul class="service-list">
-              <li>Filtros y sistemas</li>
-              <li>Calentadores y boilers</li>
-              <li>Bombas de circulaci&oacute;n</li>
-              <li>Diagn&oacute;stico t&eacute;cnico</li>
+              <li>Limpieza y aspirado</li>
+              <li>Medici&oacute;n de agua</li>
+              <li>Cepillos, redes y mangueras</li>
+              <li>Automatizaci&oacute;n de limpieza</li>
             </ul>
-            <a href="https://wa.me/5215550602915?text=Hola%2C%20me%20interesa%20cotizar%20Reparaci%C3%B3n%20de%20Equipo" class="service-card-link" target="_blank">Cotizar servicio &rarr;</a>
-            <button class="service-plus-btn" aria-label="M&aacute;s informaci&oacute;n sobre Reparaci&oacute;n de equipo">
+            <a href="https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20accesorios%20para%20mi%20alberca" class="service-card-link" target="_blank">Cotizar servicio &rarr;</a>
+            <button class="service-plus-btn" aria-label="M&aacute;s informaci&oacute;n sobre venta de accesorios">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path d="m24 16.5h-4.5v-4.5c0-.8286-.6719-1.5-1.5-1.5s-1.5.6714-1.5 1.5v4.5h-4.5c-.8281 0-1.5.6714-1.5 1.5s.6719 1.5 1.5 1.5h4.5v4.5c0 .8286.6719 1.5 1.5 1.5s1.5-.6714 1.5-1.5v-4.5h4.5c.8281 0 1.5-.6714 1.5-1.5s-.6719-1.5-1.5-1.5z"/></svg>
             </button>
           </div>
@@ -3353,49 +4230,49 @@ body:not(.preloading) .site-preloader {
             </button>
           </div>
 
-          <div class="service-card fade-up visible" data-service-modal="diseno-hidraulico" role="button" tabindex="0">
+          <div class="service-card fade-up visible" data-service-modal="venta-equipos" role="button" tabindex="0">
             <div class="service-icon" aria-hidden="true"></div>
-            <h3>Dise&ntilde;o hidr&aacute;ulico</h3>
-            <p>Dise&ntilde;o y supervisi&oacute;n de sistemas hidr&aacute;ulicos y el&eacute;ctricos para albercas, fuentes y jacuzzis.</p>
+            <h3>Venta de equipos</h3>
+            <p>Equipos que hacen la diferencia para piscinas, fuentes y jacuzzis.</p>
             <ul class="service-list">
-              <li>Dise&ntilde;o de redes hidr&aacute;ulicas</li>
-              <li>Sistemas el&eacute;ctricos</li>
-              <li>Fuentes ornamentales</li>
-              <li>Jacuzzis y spas</li>
+              <li>Bombas y filtros</li>
+              <li>Calentadores</li>
+              <li>Cloradores</li>
+              <li>Asesor&iacute;a de selecci&oacute;n</li>
             </ul>
-            <a href="https://wa.me/5215550602915?text=Hola%2C%20me%20interesa%20cotizar%20Dise%C3%B1o%20Hidr%C3%A1ulico" class="service-card-link" target="_blank">Cotizar servicio &rarr;</a>
-            <button class="service-plus-btn" aria-label="M&aacute;s informaci&oacute;n sobre Dise&ntilde;o hidr&aacute;ulico">
+            <a href="https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20equipos%20para%20mi%20alberca" class="service-card-link" target="_blank">Cotizar servicio &rarr;</a>
+            <button class="service-plus-btn" aria-label="M&aacute;s informaci&oacute;n sobre venta de equipos">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path d="m24 16.5h-4.5v-4.5c0-.8286-.6719-1.5-1.5-1.5s-1.5.6714-1.5 1.5v4.5h-4.5c-.8281 0-1.5.6714-1.5 1.5s.6719 1.5 1.5 1.5h4.5v4.5c0 .8286.6719 1.5 1.5 1.5s1.5-.6714 1.5-1.5v-4.5h4.5c.8281 0 1.5-.6714 1.5-1.5s-.6719-1.5-1.5-1.5z"/></svg>
             </button>
           </div>
 
-          <div class="service-card fade-up visible" data-service-modal="mantenimiento" role="button" tabindex="0">
+          <div class="service-card fade-up visible" data-service-modal="remodelacion" role="button" tabindex="0">
             <div class="service-icon" aria-hidden="true"></div>
-            <h3>Mantenimiento</h3>
-            <p>Mantenimiento preventivo y correctivo con control qu&iacute;mico preciso y revisi&oacute;n de equipo en cada visita.</p>
+            <h3>Remodelaci&oacute;n</h3>
+            <p>Remodelamos tu piscina y actualizamos tu espacio con cambio de recubrimiento y renovaci&oacute;n integral.</p>
             <ul class="service-list">
-              <li>Control de pH y cloro</li>
-              <li>Limpieza de filtros</li>
-              <li>Revisi&oacute;n de bombas</li>
-              <li>Contratos mensuales</li>
+              <li>Diagn&oacute;stico del estado actual</li>
+              <li>Renovaci&oacute;n de acabados</li>
+              <li>Actualizaci&oacute;n de instalaciones</li>
+              <li>Ejecuci&oacute;n por etapas</li>
             </ul>
-            <a href="https://wa.me/5215550602915?text=Hola%2C%20me%20interesa%20cotizar%20Mantenimiento" class="service-card-link" target="_blank">Cotizar servicio &rarr;</a>
-            <button class="service-plus-btn" aria-label="M&aacute;s informaci&oacute;n sobre Mantenimiento">
+            <a href="https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20la%20remodelaci%C3%B3n%20de%20mi%20alberca" class="service-card-link" target="_blank">Cotizar servicio &rarr;</a>
+            <button class="service-plus-btn" aria-label="M&aacute;s informaci&oacute;n sobre remodelaci&oacute;n">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path d="m24 16.5h-4.5v-4.5c0-.8286-.6719-1.5-1.5-1.5s-1.5.6714-1.5 1.5v4.5h-4.5c-.8281 0-1.5.6714-1.5 1.5s.6719 1.5 1.5 1.5h4.5v4.5c0 .8286.6719 1.5 1.5 1.5s1.5-.6714 1.5-1.5v-4.5h4.5c.8281 0 1.5-.6714 1.5-1.5s-.6719-1.5-1.5-1.5z"/></svg>
             </button>
           </div>
 
-          <div class="service-card fade-up visible" style="background:var(--royal);border-color:transparent;" data-service-modal="mosaico" role="button" tabindex="0">
+          <div class="service-card fade-up visible" style="background:var(--royal);border-color:transparent;" data-service-modal="mosaico-rediseno" role="button" tabindex="0">
             <div class="service-icon" style="background:rgba(255,255,255,0.12);" aria-hidden="true"></div>
-            <h3 style="color:var(--white);">Mosaico</h3>
-            <p style="color:rgba(255,255,255,0.6);">Instalaci&oacute;n y reposici&oacute;n de mosaico veneciano (azulejo) con acabados de alta calidad.</p>
+            <h3 style="color:var(--white);">Mosaico y redise&ntilde;o</h3>
+            <p style="color:rgba(255,255,255,0.6);">Renovaci&oacute;n de mosaico veneciano y redise&ntilde;o visual con acabados precisos y durables.</p>
             <ul class="service-list" style="margin-top:14px;">
               <li style="color:rgba(255,255,255,0.7);">Mosaico veneciano</li>
               <li style="color:rgba(255,255,255,0.7);">Acabados premium</li>
-              <li style="color:rgba(255,255,255,0.7);">Reposici&oacute;n parcial</li>
+              <li style="color:rgba(255,255,255,0.7);">Redise&ntilde;o de acabados</li>
             </ul>
             <a href="https://wa.me/5215550602915?text=Hola%2C%20me%20interesa%20cotizar%20Instalaci%C3%B3n%20de%20Mosaico" class="service-card-link service-card-link--light" target="_blank">Cotizar servicio &rarr;</a>
-            <button class="service-plus-btn" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.25);" aria-label="M&aacute;s informaci&oacute;n sobre Mosaico">
+            <button class="service-plus-btn" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.25);" aria-label="M&aacute;s informaci&oacute;n sobre mosaico y redise&ntilde;o">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" style="fill:rgba(255,255,255,0.9);"><path d="m24 16.5h-4.5v-4.5c0-.8286-.6719-1.5-1.5-1.5s-1.5.6714-1.5 1.5v4.5h-4.5c-.8281 0-1.5.6714-1.5 1.5s.6719 1.5 1.5 1.5h4.5v4.5c0 .8286.6719 1.5 1.5 1.5s1.5-.6714 1.5-1.5v-4.5h4.5c.8281 0 1.5-.6714 1.5-1.5s-.6719-1.5-1.5-1.5z"/></svg>
             </button>
           </div>
@@ -3450,7 +4327,12 @@ body:not(.preloading) .site-preloader {
           <a class="services-modal-link" id="servicesModalLink" href="#" target="_blank" rel="noopener noreferrer">Cotizar por WhatsApp</a>
         </div>
       </div>
-      <ul class="services-modal-points" id="servicesModalPoints"></ul>
+      <div class="services-modal-side">
+        <figure class="services-modal-visual" id="servicesModalVisual" hidden>
+          <img id="servicesModalImage" alt="" loading="lazy">
+        </figure>
+        <ul class="services-modal-points" id="servicesModalPoints"></ul>
+      </div>
     </div>
   </div>
 </div>
@@ -3461,42 +4343,36 @@ body:not(.preloading) .site-preloader {
 <section id="brand-support" class="section brand-support-section">
   <div class="container brand-support-inner">
     <div class="brand-support-header fade-up visible">
-      <span class="label">RESPALDO DE MARCA</span>
       <h2 class="brand-support-title">MARCAS QUE DISTRIBUIMOS</h2>
       <p class="brand-support-copy">Trabajamos con marcas reconocidas para garantizar calidad, durabilidad y respaldo t&eacute;cnico en cada proyecto.</p>
     </div>
 
     <div class="brand-logo-marquee fade-up visible" aria-label="Marcas que distribuimos">
       <div class="brand-logo-track">
-        <div class="brand-logo-card"><span class="brand-logo-text">Speck Pumps</span></div>
-        <div class="brand-logo-card"><span class="brand-logo-text">Allied Innovations</span></div>
-        <div class="brand-logo-card"><span class="brand-logo-text">AstralPool</span></div>
-        <div class="brand-logo-card"><span class="brand-logo-text">Pandaclor</span></div>
-        <div class="brand-logo-card"><span class="brand-logo-text">Hayward</span></div>
-        <div class="brand-logo-card"><span class="brand-logo-text">Inter Water</span></div>
-        <div class="brand-logo-card" aria-hidden="true"><span class="brand-logo-text">Speck Pumps</span></div>
-        <div class="brand-logo-card" aria-hidden="true"><span class="brand-logo-text">Allied Innovations</span></div>
-        <div class="brand-logo-card" aria-hidden="true"><span class="brand-logo-text">AstralPool</span></div>
-        <div class="brand-logo-card" aria-hidden="true"><span class="brand-logo-text">Pandaclor</span></div>
-        <div class="brand-logo-card" aria-hidden="true"><span class="brand-logo-text">Hayward</span></div>
-        <div class="brand-logo-card" aria-hidden="true"><span class="brand-logo-text">Inter Water</span></div>
+        <div class="brand-logo-card"><img src="assets/images/LOGOS/web/astral-pool.png" alt="AstralPool"></div>
+        <div class="brand-logo-card"><img src="assets/images/LOGOS/web/hayward.png" alt="Hayward"></div>
+        <div class="brand-logo-card"><img src="assets/images/LOGOS/web/biolim.png" alt="Biolim"></div>
+        <div class="brand-logo-card"><img src="assets/images/LOGOS/web/blue-devil.png" alt="Blue Devil"></div>
+        <div class="brand-logo-card"><img src="assets/images/LOGOS/web/eamux.png" alt="Eamux"></div>
+        <div class="brand-logo-card"><img src="assets/images/LOGOS/web/espa.png" alt="ESPA"></div>
+        <div class="brand-logo-card"><img src="assets/images/LOGOS/web/inter-water.png" alt="Inter Water"></div>
+        <div class="brand-logo-card"><img src="assets/images/LOGOS/web/panda.png" alt="Panda"></div>
+        <div class="brand-logo-card"><img src="assets/images/LOGOS/web/pentair.png" alt="Pentair"></div>
+        <div class="brand-logo-card"><img src="assets/images/LOGOS/web/spin.png" alt="Spin"></div>
+        <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/astral-pool.png" alt=""></div>
+        <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/hayward.png" alt=""></div>
+        <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/biolim.png" alt=""></div>
+        <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/blue-devil.png" alt=""></div>
+        <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/eamux.png" alt=""></div>
+        <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/espa.png" alt=""></div>
+        <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/inter-water.png" alt=""></div>
+        <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/panda.png" alt=""></div>
+        <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/pentair.png" alt=""></div>
+        <div class="brand-logo-card" aria-hidden="true"><img src="assets/images/LOGOS/web/spin.png" alt=""></div>
       </div>
     </div>
 
-    <div class="brand-support-benefits fade-up visible">
-      <div class="brand-support-benefit">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
-        <span>PRODUCTOS ORIGINALES CERTIFICADOS</span>
-      </div>
-      <div class="brand-support-benefit">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7l8-4Z"></path><path d="m9 12 2 2 4-5"></path></svg>
-        <span>DISTRIBUIDOR AUTORIZADO</span>
-      </div>
-      <div class="brand-support-benefit">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H6"></path></svg>
-        <span>GARANT&Iacute;A DE F&Aacute;BRICA</span>
-      </div>
-    </div>
+    <p class="brand-support-closing fade-up visible">Todo en un solo lugar</p>
   </div>
 </section>
 
@@ -3857,73 +4733,113 @@ body:not(.preloading) .site-preloader {
     <div class="projects-premium-carousel fade-up visible" data-projects-premium-carousel>
       <div class="projects-premium-viewport" data-projects-viewport aria-live="polite">
         <div class="projects-premium-track" data-projects-track>
+          <article class="projects-premium-card" data-project-card data-categories="Mosaico,Rehabilitación">
+            <img src="assets/images/Cambio de liminarias y correccion de mosaico.png" alt="Renovación de luminarias y corrección de mosaico" loading="eager" fetchpriority="high">
+            <div class="projects-card-overlay"></div>
+            <div class="projects-card-content">
+              <span class="projects-card-category">Mosaico</span>
+              <h3>Renovación de luminarias y mosaico</h3>
+              <p>Actualización de iluminación y corrección del acabado</p>
+            </div>
+          </article>
+
+          <article class="projects-premium-card" data-project-card data-categories="Mosaico,Rehabilitación">
+            <img src="assets/images/portfolio-c21/rehabilitacion-alberca-superficie.jpg" alt="Cambio de mosaico veneciano" loading="lazy" style="object-position:center 44%;">
+            <div class="projects-card-overlay"></div>
+            <div class="projects-card-content">
+              <span class="projects-card-category">Mosaico</span>
+              <h3>Cambio de mosaico veneciano</h3>
+              <p>Renovación del recubrimiento en toda la superficie</p>
+            </div>
+          </article>
+
+          <article class="projects-premium-card" data-project-card data-categories="Mantenimiento">
+            <img src="assets/images/MANTENIMIENTO PISCINA.png" alt="Mantenimiento preventivo de alberca" loading="lazy" style="object-position:center 50%;">
+            <div class="projects-card-overlay"></div>
+            <div class="projects-card-content">
+              <span class="projects-card-category">Mantenimiento</span>
+              <h3>Mantenimiento preventivo de alberca</h3>
+              <p>Limpieza, balance químico y revisión general</p>
+            </div>
+          </article>
+
+          <article class="projects-premium-card" data-project-card data-categories="Fuentes,Diseño hidráulico">
+            <img src="assets/images/portfolio-c21/CONSTRUCCION FUENTE.jpg" alt="Construcción de fuente" loading="lazy">
+            <div class="projects-card-overlay"></div>
+            <div class="projects-card-content">
+              <span class="projects-card-category">Fuentes</span>
+              <h3>Construcción de fuente</h3>
+              <p>Integración hidráulica, acabados e iluminación</p>
+            </div>
+          </article>
+
+          <article class="projects-premium-card" data-project-card data-categories="Equipos,Diseño hidráulico">
+            <img src="assets/images/portfolio-c21/REDISTRIBUCION EH INSTALACION DE CUARTO DE MAQUINAS.jpg" alt="Redistribución e instalación de cuarto de máquinas" loading="lazy">
+            <div class="projects-card-overlay"></div>
+            <div class="projects-card-content">
+              <span class="projects-card-category">Equipos</span>
+              <h3>Redistribución de cuarto de máquinas</h3>
+              <p>Instalación, organización y puesta a punto de equipos</p>
+            </div>
+          </article>
+
+          <article class="projects-premium-card" data-project-card data-categories="Fuentes,Diseño hidráulico">
+            <img src="assets/images/portfolio-c21/RENTA DE FUENTE.jpg" alt="Renta de fuente" loading="lazy">
+            <div class="projects-card-overlay"></div>
+            <div class="projects-card-content">
+              <span class="projects-card-category">Fuentes</span>
+              <h3>Renta de fuente</h3>
+              <p>Instalación, operación y desmontaje del sistema</p>
+            </div>
+          </article>
+
+          <article class="projects-premium-card" data-project-card data-categories="Mosaico,Rehabilitación">
+            <img src="assets/images/Mision catala.png" alt="Cambio de veneciano en toda la alberca" loading="lazy">
+            <div class="projects-card-overlay"></div>
+            <div class="projects-card-content">
+              <span class="projects-card-category">Mosaico</span>
+              <h3>Cambio de veneciano en toda la alberca</h3>
+              <p>Renovación completa del recubrimiento interior</p>
+            </div>
+          </article>
+
+          <article class="projects-premium-card" data-project-card data-categories="Rehabilitación,Mantenimiento">
+            <img src="assets/images/MANTENIMIENTO DE REHABILITACION PISCINA.png" alt="Rehabilitación integral de piscina" loading="lazy">
+            <div class="projects-card-overlay"></div>
+            <div class="projects-card-content">
+              <span class="projects-card-category">Rehabilitación</span>
+              <h3>Rehabilitación integral de piscina</h3>
+              <p>Recuperación de superficie, agua y funcionamiento</p>
+            </div>
+          </article>
+
+          <article class="projects-premium-card" data-project-card data-categories="Mosaico,Jacuzzis">
+            <img src="assets/images/portfolio-c21/CAMBIO DE VENECIANO 01.jpg" alt="Cambio de mosaico veneciano en jacuzzi" loading="lazy">
+            <div class="projects-card-overlay"></div>
+            <div class="projects-card-content">
+              <span class="projects-card-category">Mosaico</span>
+              <h3>Cambio de veneciano en jacuzzi</h3>
+              <p>Renovación del acabado interior y remates</p>
+            </div>
+          </article>
+
+          <article class="projects-premium-card" data-project-card data-categories="Mantenimiento">
+            <img src="assets/images/MANTENIMIENTO.png" alt="Mantenimiento de piscina y jacuzzi" loading="lazy">
+            <div class="projects-card-overlay"></div>
+            <div class="projects-card-content">
+              <span class="projects-card-category">Mantenimiento</span>
+              <h3>Mantenimiento de piscina y jacuzzi</h3>
+              <p>Conservación integral para operación continua</p>
+            </div>
+          </article>
+
           <article class="projects-premium-card" data-project-card data-categories="Mantenimiento,Diseño hidráulico">
-            <img src="assets/images/Basalto.png" alt="Condominio Basalto" loading="eager" fetchpriority="high">
+            <img src="assets/images/PROYE 7.png" alt="Mantenimiento integral de piscina" loading="lazy">
             <div class="projects-card-overlay"></div>
             <div class="projects-card-content">
               <span class="projects-card-category">Mantenimiento</span>
-              <h3>Condominio Basalto</h3>
-              <p>Mantenimiento preventivo en alberca</p>
-            </div>
-          </article>
-
-          <article class="projects-premium-card" data-project-card data-categories="Mantenimiento,Jacuzzis">
-            <img src="assets/images/El secreto.png" alt="El Secreto" loading="lazy">
-            <div class="projects-card-overlay"></div>
-            <div class="projects-card-content">
-              <span class="projects-card-category">Mantenimiento</span>
-              <h3>El Secreto</h3>
-              <p>Mantenimiento preventivo en alberca</p>
-            </div>
-          </article>
-
-          <article class="projects-premium-card" data-project-card data-categories="Rehabilitación,Equipos">
-            <img src="assets/images/Casa pedregal.png" alt="Casa Pedregal" loading="lazy">
-            <div class="projects-card-overlay"></div>
-            <div class="projects-card-content">
-              <span class="projects-card-category">Rehabilitación</span>
-              <h3>Casa Pedregal</h3>
-              <p>Reacondicionamiento de alberca</p>
-            </div>
-          </article>
-
-          <article class="projects-premium-card" data-project-card data-categories="Mantenimiento,Diseño hidráulico,Fuentes">
-            <img src="assets/images/Hotel habita de puebla.png" alt="Hotel Habitat Puebla" loading="lazy">
-            <div class="projects-card-overlay"></div>
-            <div class="projects-card-content">
-              <span class="projects-card-category">Diseño hidráulico</span>
-              <h3>Hotel Habitat Puebla</h3>
-              <p>Mantenimiento de alberca</p>
-            </div>
-          </article>
-
-          <article class="projects-premium-card" data-project-card data-categories="Mosaico">
-            <img src="assets/images/Mision catala.png" alt="Residencial Misión Catala" loading="lazy">
-            <div class="projects-card-overlay"></div>
-            <div class="projects-card-content">
-              <span class="projects-card-category">Mosaico</span>
-              <h3>Residencial Misión Catala</h3>
-              <p>Cambio de mosaico veneciano</p>
-            </div>
-          </article>
-
-          <article class="projects-premium-card" data-project-card data-categories="Mantenimiento,Rehabilitación,Equipos">
-            <img src="assets/images/PROYE 7.png" alt="Proyecto 7" loading="lazy">
-            <div class="projects-card-overlay"></div>
-            <div class="projects-card-content">
-              <span class="projects-card-category">Rehabilitación</span>
-              <h3>Proyecto 7</h3>
-              <p>Mantenimiento y reacondicionamiento de alberca</p>
-            </div>
-          </article>
-
-          <article class="projects-premium-card" data-project-card data-categories="Mosaico,Equipos">
-            <img src="assets/images/Veramonte 01.png" alt="Condominio Residencial Veramonte Santa Fe" loading="lazy">
-            <div class="projects-card-overlay"></div>
-            <div class="projects-card-content">
-              <span class="projects-card-category">Mosaico</span>
-              <h3>Condominio Residencial Veramonte Santa Fe</h3>
-              <p>Cambio de mosaico veneciano e instalación de luminaria nueva</p>
+              <h3>Mantenimiento integral de piscina</h3>
+              <p>Control del agua, limpieza y revisión operativa</p>
             </div>
           </article>
         </div>
@@ -4406,7 +5322,7 @@ body:not(.preloading) .site-preloader {
         <div class="why-intro-copy">
           <span class="label">Acerca de Nosotros</span>
           <h2>Diseñamos confianza alrededor del agua.</h2>
-          <p>Con más de 25 años de experiencia, en Calidad 21 desarrollamos piscinas y fuentes con un enfoque técnico, cercano y totalmente personalizado. Cada proyecto se trabaja con precisión, atención directa y la certeza de un resultado construido con calidad real.</p>
+          <p>Con más de 25 años de experiencia, en Calidad 21 desarrollamos piscinas y fuentes con un enfoque técnico, cercano y personalizado. Esa trayectoria se traduce en procesos claros y resultados confiables, con atención directa en cada proyecto.</p>
         </div>
         <div class="why-intro-metrics">
           <div class="why-metric">
@@ -4445,18 +5361,6 @@ body:not(.preloading) .site-preloader {
         </div>
       </div>
 
-      <div class="why-trust-card fade-up visible">
-        <div class="why-trust-copy">
-          <h3>Trayectoria que se traduce en seguridad.</h3>
-          <p>En Calidad 21 combinamos experiencia, profesionalismo y una atención meticulosa para que cada cliente tenga claridad durante todo el proceso y confianza plena en el resultado. No solo construimos espacios acuáticos: entregamos tranquilidad, certeza y valor duradero.</p>
-        </div>
-        <div class="why-trust-points">
-          <div class="why-trust-point">Trayectoria sólida</div>
-          <div class="why-trust-point">Confianza real</div>
-          <div class="why-trust-point">Profesionalismo técnico</div>
-          <div class="why-trust-point">Seguridad en el resultado</div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -4591,7 +5495,7 @@ body:not(.preloading) .site-preloader {
             </div>
           </div>
         </div>
-        <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;">
+        <div class="contact-social-actions" style="display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;">
           <a href="https://wa.me/5215550602915?text=Hola%2C%20quiero%20contactar%20a%20Calidad%2021" class="btn btn-wa" target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
             Escribir por WhatsApp
@@ -4632,13 +5536,15 @@ body:not(.preloading) .site-preloader {
             <label for="service">Servicio de interés</label>
             <select id="service" style="width:100%;padding:13px 16px;border:1.5px solid rgba(26,58,110,0.1);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.92rem;color:var(--text-dark);background:var(--off-white);outline:none;cursor:pointer;">
               <option value="">Seleccionar...</option>
-              <option>Mantenimiento preventivo</option>
-              <option>Reparación de equipo</option>
-              <option>Rehabilitación de alberca</option>
-              <option>Contrato para condominio</option>
-              <option>Diseño hidráulico</option>
-              <option>Mosaico veneciano</option>
-              <option>Productos y químicos</option>
+              <option>Venta de químicos</option>
+              <option>Evaluación de instalaciones</option>
+              <option>Capacitación</option>
+              <option>Revisión, rehabilitación y reparación técnica de equipos</option>
+              <option>Venta de accesorios</option>
+              <option>Venta de equipos</option>
+              <option>Pólizas anuales</option>
+              <option>Mosaico y rediseño</option>
+              <option>Remodelación</option>
               <option>Otro</option>
             </select>
           </div>
@@ -4683,11 +5589,11 @@ src="assets/images/Calidad21logopng.png" alt="Logo CALIDAD 21" class="nav-logo-i
       <div class="footer-col">
         <h4>Servicios</h4>
         <ul class="footer-links">
-          <li><a href="#services">Mantenimiento</a></li>
-          <li><a href="#services">Reparación de equipo</a></li>
-          <li><a href="#services">Rehabilitación</a></li>
-          <li><a href="#services">Diseño hidráulico</a></li>
-          <li><a href="#services">Mosaico veneciano</a></li>
+          <li><a href="#services">Venta de químicos</a></li>
+          <li><a href="#services">Revisión y reparación técnica</a></li>
+          <li><a href="#services">Venta de equipos y accesorios</a></li>
+          <li><a href="#services">Mosaico y rediseño</a></li>
+          <li><a href="#services">Remodelación</a></li>
           <li><a href="#services">Capacitación</a></li>
         </ul>
       </div>
@@ -4747,6 +5653,7 @@ window.addEventListener('load', function() {
   function finishPreloader() {
     preloader.classList.add('is-hidden');
     document.body.classList.remove('preloading');
+    document.body.classList.add('hero-ready');
     window.setTimeout(function() {
       if (preloader && preloader.parentNode) {
         preloader.parentNode.removeChild(preloader);
@@ -4834,6 +5741,65 @@ window.addEventListener('load', function() {
   }, 1800);
 });
 
+(function() {
+  var hero = document.getElementById('hero');
+  if (!hero) return;
+
+  var media = hero.querySelector('[data-hero-media]');
+  var copy = hero.querySelector('[data-hero-copy]');
+  var targetProgress = 0;
+  var currentProgress = 0;
+  var rafId = null;
+
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  function applyHeroState(progress) {
+    if (media) {
+      media.style.transform = 'translate3d(0,' + (progress * 28).toFixed(2) + 'px,0) scale(' + (1 + progress * 0.02).toFixed(4) + ')';
+    }
+
+    if (copy) {
+      var fade = clamp((progress - 0.10) / 0.32, 0, 1);
+      var opacity = 1 - fade;
+      var translate = fade * -48;
+      var blur = fade * 6;
+      var scale = 1 - (fade * 0.02);
+      copy.style.opacity = opacity.toFixed(3);
+      copy.style.transform = 'translate3d(0,' + translate.toFixed(2) + 'px,0) scale(' + scale.toFixed(4) + ')';
+      copy.style.filter = 'blur(' + blur.toFixed(2) + 'px)';
+      copy.style.pointerEvents = fade > 0.95 ? 'none' : '';
+    }
+  }
+
+  function renderHeroFrame() {
+    currentProgress += (targetProgress - currentProgress) * 0.12;
+    if (Math.abs(targetProgress - currentProgress) < 0.0006) currentProgress = targetProgress;
+    applyHeroState(currentProgress);
+    rafId = window.requestAnimationFrame(renderHeroFrame);
+  }
+
+  function syncHeroToScroll() {
+    var heroTop = hero.offsetTop || 0;
+    var maxScroll = hero.offsetHeight * 0.9;
+    targetProgress = clamp((window.scrollY - heroTop) / maxScroll, 0, 1);
+  }
+
+  window.addEventListener('scroll', syncHeroToScroll, { passive: true });
+  window.addEventListener('resize', syncHeroToScroll);
+  window.addEventListener('load', function() {
+    if (!document.body.classList.contains('hero-ready')) {
+      document.body.classList.add('hero-ready');
+    }
+    syncHeroToScroll();
+  });
+  applyHeroState(0);
+  if (!rafId) {
+    rafId = window.requestAnimationFrame(renderHeroFrame);
+  }
+})();
+
 document.querySelectorAll('.btn').forEach(btn => {
   btn.addEventListener('mouseenter', function(e) {
     const rect = this.getBoundingClientRect();
@@ -4905,13 +5871,89 @@ function closeMobile() { mobileNav.classList.remove('open'); }
   var prev = document.getElementById('servicesPrev');
   var next = document.getElementById('servicesNext');
   if (!sc || !prev || !next) return;
-  var step = 300;
+  var grid = sc.querySelector('.services-grid');
+  var pointerActive = false;
+  var dragMoved = false;
+  var startX = 0;
+  var startScrollLeft = 0;
+  var activePointerId = null;
+  var suppressClick = false;
+
+  function getStep() {
+    var card = sc.querySelector('.service-card');
+    if (!card) return 320;
+    var gap = 0;
+    if (grid) {
+      var styles = window.getComputedStyle(grid);
+      gap = parseFloat(styles.columnGap || styles.gap || 0) || 0;
+    }
+    return Math.round(card.getBoundingClientRect().width + gap);
+  }
+
+  function scrollByStep(direction) {
+    sc.scrollBy({ left: getStep() * direction, behavior: 'smooth' });
+  }
+
+  function endDrag() {
+    if (!pointerActive) return;
+    pointerActive = false;
+    sc.classList.remove('is-dragging');
+    if (dragMoved) suppressClick = true;
+    dragMoved = false;
+    if (activePointerId !== null && sc.releasePointerCapture) {
+      try {
+        sc.releasePointerCapture(activePointerId);
+      } catch (error) {}
+    }
+    activePointerId = null;
+  }
+
   prev.addEventListener('click', function() {
-    sc.scrollBy({ left: -step, behavior: 'smooth' });
+    scrollByStep(-1);
   });
   next.addEventListener('click', function() {
-    sc.scrollBy({ left: step, behavior: 'smooth' });
+    scrollByStep(1);
   });
+
+  sc.addEventListener('pointerdown', function(event) {
+    if (event.pointerType !== 'mouse' && event.pointerType !== 'pen') return;
+    if (event.button !== 0) return;
+    pointerActive = true;
+    dragMoved = false;
+    startX = event.clientX;
+    startScrollLeft = sc.scrollLeft;
+    activePointerId = event.pointerId;
+  });
+
+  sc.addEventListener('pointermove', function(event) {
+    if (!pointerActive) return;
+    var delta = event.clientX - startX;
+    if (!dragMoved && Math.abs(delta) > 8) {
+      dragMoved = true;
+      sc.classList.add('is-dragging');
+      if (sc.setPointerCapture) {
+        try {
+          sc.setPointerCapture(event.pointerId);
+        } catch (error) {}
+      }
+    }
+    if (!dragMoved) return;
+    event.preventDefault();
+    sc.scrollLeft = startScrollLeft - delta;
+  });
+
+  sc.addEventListener('pointerup', endDrag);
+  sc.addEventListener('pointercancel', endDrag);
+  sc.addEventListener('lostpointercapture', endDrag);
+  window.addEventListener('pointerup', endDrag);
+  window.addEventListener('blur', endDrag);
+
+  sc.addEventListener('click', function(event) {
+    if (!suppressClick) return;
+    event.preventDefault();
+    event.stopPropagation();
+    suppressClick = false;
+  }, true);
 })();
 
 (function() {
@@ -4923,21 +5965,25 @@ function closeMobile() { mobileNav.classList.remove('open'); }
   var title = document.getElementById('servicesModalTitle');
   var body = document.getElementById('servicesModalBody');
   var points = document.getElementById('servicesModalPoints');
+  var visual = document.getElementById('servicesModalVisual');
+  var image = document.getElementById('servicesModalImage');
   var link = document.getElementById('servicesModalLink');
   var closeTargets = Array.prototype.slice.call(modal.querySelectorAll('[data-services-modal-close]'));
   var cards = Array.prototype.slice.call(document.querySelectorAll('#services [data-service-modal]'));
   var lastTrigger = null;
 
   var details = {
-    'productos': {
-      eyebrow: 'Productos',
-      title: 'Productos para operaci\u00f3n y cuidado profesional.',
+    'venta-quimicos': {
+      eyebrow: 'Venta de qu\u00edmicos',
+      title: 'El agua clara no siempre es perfecta.',
       body: [
-        'Suministramos productos qu\u00edmicos, equipos y accesorios para mantener albercas estables, seguras y listas para operar.',
-        'Te orientamos para elegir soluciones compatibles con el uso real, el volumen de agua y las condiciones de cada instalaci\u00f3n.'
+        'Suministramos qu\u00edmicos profesionales para desinfecci\u00f3n, balance y control preventivo del agua.',
+        'Analizamos el volumen, el uso y las condiciones de tu piscina para lograr agua perfecta y confianza total.'
       ],
-      points: ['Qu\u00edmicos y tratamiento de agua', 'Bombas, filtros y calentadores', 'Accesorios de limpieza y medici\u00f3n', 'Asesor\u00eda t\u00e9cnica para selecci\u00f3n de producto'],
-      href: 'https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20productos%20para%20mi%20alberca'
+      points: ['Desinfecci\u00f3n y tratamiento', 'Balance de pH y alcalinidad', 'Prevenci\u00f3n y control de algas', 'Asesor\u00eda de dosificaci\u00f3n'],
+      image: 'assets/images/SERVICIOS/MONTAJES/montaje-quimicos.png',
+      imageAlt: 'Montaje de productos qu\u00edmicos para alberca',
+      href: 'https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20productos%20qu%C3%ADmicos%20para%20mi%20alberca'
     },
     'evaluacion-instalaciones': {
       eyebrow: 'Diagn\u00f3stico t\u00e9cnico',
@@ -4959,25 +6005,27 @@ function closeMobile() { mobileNav.classList.remove('open'); }
       points: ['Uso seguro de qu\u00edmicos', 'Rutinas de revisi\u00f3n diaria', 'Operaci\u00f3n b\u00e1sica de equipos', 'Protocolos de seguridad y reporte'],
       href: 'https://wa.me/5215550602915?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20capacitaci%C3%B3n%20para%20mi%20personal'
     },
-    'rehabilitacion': {
-      eyebrow: 'Recuperaci\u00f3n',
-      title: 'Recuperamos albercas deterioradas con una ruta clara.',
+    'rehabilitacion-equipos': {
+      eyebrow: 'Reparaci\u00f3n y rehabilitaci\u00f3n t\u00e9cnica',
+      title: 'Recuperamos el coraz\u00f3n de tu piscina.',
       body: [
-        'Cuando una alberca lleva tiempo fuera de operaci\u00f3n o tiene problemas acumulados, intervenimos estructura, acabados, hidr\u00e1ulica y equipo con una ruta clara de recuperaci\u00f3n.',
-        'Cada proyecto parte de un diagn\u00f3stico para priorizar qu\u00e9 conviene reparar, sustituir o redise\u00f1ar.'
+        'Diagnosticamos bombas, filtros, calentadores, cloradores y componentes hidr\u00e1ulicos antes de intervenir.',
+        'Reparamos o rehabilitamos lo necesario con soluciones que devuelven el flujo y el desempe\u00f1o al sistema.'
       ],
-      points: ['Evaluaci\u00f3n de estructura y acabados', 'Revisi\u00f3n de impermeabilizaci\u00f3n', 'Reemplazo de componentes cr\u00edticos', 'Plan por etapas seg\u00fan presupuesto'],
-      href: 'https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20la%20recuperaci%C3%B3n%20de%20mi%20alberca'
+      points: ['Diagn\u00f3stico de funcionamiento', 'Rehabilitaci\u00f3n de componentes', 'Reparaci\u00f3n y refacciones compatibles', 'Pruebas finales de operaci\u00f3n'],
+      href: 'https://wa.me/5215550602915?text=Hola%2C%20quiero%20revisar%20o%20reparar%20mis%20equipos%20de%20alberca'
     },
-    'reparacion-equipo': {
-      eyebrow: 'Diagn\u00f3stico t\u00e9cnico',
-      title: 'Recupera el desempe\u00f1o de bombas, filtros y calentadores.',
+    'venta-accesorios': {
+      eyebrow: 'Venta de accesorios',
+      title: 'Todo para una limpieza eficiente.',
       body: [
-        'Diagnosticamos la causa real de la falla antes de reemplazar piezas. Eso permite reparar de forma m\u00e1s precisa y evitar soluciones temporales.',
-        'Trabajamos con refacciones compatibles y evaluaci\u00f3n del estado general del sistema para que el equipo no vuelva a caer por el mismo motivo.'
+        'Contamos con soluciones manuales y autom\u00e1ticas para limpieza, aspirado, cepillado y medici\u00f3n del agua.',
+        'Te ayudamos a elegir accesorios compatibles con tu instalaci\u00f3n y con la rutina real de mantenimiento.'
       ],
-      points: ['Bombas, filtros y calentadores', 'Pruebas de funcionamiento y seguridad', 'Refacciones y ajustes de operaci\u00f3n', 'Revisi\u00f3n complementaria del sistema'],
-      href: 'https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20la%20reparaci%C3%B3n%20de%20mi%20equipo%20de%20alberca'
+      points: ['Cepillos, redes y mangueras', 'Cabezal y sistemas de aspirado', 'Analizadores de agua', 'Limpieza autom\u00e1tica'],
+      image: 'assets/images/SERVICIOS/MONTAJES/montaje-accesorios.png',
+      imageAlt: 'Montaje de accesorios para alberca',
+      href: 'https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20accesorios%20para%20mi%20alberca'
     },
     'contratos-condominios': {
       eyebrow: 'P\u00f3lizas anuales',
@@ -4989,34 +6037,36 @@ function closeMobile() { mobileNav.classList.remove('open'); }
       points: ['Visitas calendarizadas', 'Atenci\u00f3n a albercas y fuentes', 'Reportes de seguimiento', 'Respuesta prioritaria ante incidencias'],
       href: 'https://wa.me/5215550602915?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20p%C3%B3lizas%20anuales'
     },
-    'diseno-hidraulico': {
-      eyebrow: 'Ingenier\u00eda y planeaci\u00f3n',
-      title: 'Dise\u00f1amos sistemas que funcionan bien desde el origen.',
+    'venta-equipos': {
+      eyebrow: 'Venta de equipos',
+      title: 'Equipos que hacen la diferencia.',
       body: [
-        'Desarrollamos esquemas hidr\u00e1ulicos y el\u00e9ctricos para albercas, jacuzzis y fuentes con una l\u00f3gica clara de circulaci\u00f3n, filtrado, retorno y mantenimiento.',
-        'El objetivo es evitar sobrecostos futuros, asegurar presi\u00f3n correcta y dejar cada instalaci\u00f3n lista para operar de forma eficiente.'
+        'Suministramos bombas, filtros, calentadores y cloradores para piscinas, fuentes y jacuzzis.',
+        'Seleccionamos cada equipo seg\u00fan capacidad, consumo, compatibilidad y facilidad de mantenimiento.'
       ],
-      points: ['Redes hidr\u00e1ulicas y retorno', 'Selecci\u00f3n de equipos y capacidades', 'Integraci\u00f3n de sistemas el\u00e9ctricos', 'Supervisi\u00f3n t\u00e9cnica de instalaci\u00f3n'],
-      href: 'https://wa.me/5215550602915?text=Hola%2C%20quiero%20asesor%C3%ADa%20en%20dise%C3%B1o%20hidr%C3%A1ulico'
+      points: ['Bombas de circulaci\u00f3n', 'Filtros y v\u00e1lvulas', 'Calentadores', 'Cloradores y dosificaci\u00f3n'],
+      image: 'assets/images/SERVICIOS/MONTAJES/montaje-equipos.png',
+      imageAlt: 'Montaje de equipos para alberca',
+      href: 'https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20equipos%20para%20mi%20alberca'
     },
-    'mantenimiento': {
-      eyebrow: 'Servicio integral',
-      title: 'Mant\u00e9n tu alberca estable todo el a\u00f1o.',
+    'remodelacion': {
+      eyebrow: 'Remodelaci\u00f3n',
+      title: 'Remodelamos tu piscina, actualizamos tu espacio.',
       body: [
-        'Trabajamos con rutinas preventivas, balance qu\u00edmico preciso y revisi\u00f3n t\u00e9cnica en cada visita para evitar que peque\u00f1os desajustes se conviertan en fallas costosas.',
-        'Este servicio est\u00e1 pensado para residencias y condominios que necesitan continuidad, control y respuesta r\u00e1pida ante cualquier variaci\u00f3n en el agua o el equipo.'
+        'Realizamos cambio de recubrimiento y remodelaci\u00f3n para mejorar funcionamiento, apariencia y eficiencia.',
+        'Coordinamos acabados, instalaciones y equipos por etapas para darle nueva vida a tu piscina.'
       ],
-      points: ['Balance de pH, cloro y alcalinidad', 'Bit\u00e1cora de revisi\u00f3n por visita', 'Limpieza de filtros, canastillas y superficie', 'Detecci\u00f3n temprana de fugas o desgaste'],
-      href: 'https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20mantenimiento%20preventivo%20para%20mi%20alberca'
+      points: ['Evaluaci\u00f3n del estado actual', 'Renovaci\u00f3n de acabados', 'Actualizaci\u00f3n de instalaciones', 'Ejecuci\u00f3n coordinada por etapas'],
+      href: 'https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20la%20remodelaci%C3%B3n%20de%20mi%20alberca'
     },
-    'mosaico': {
+    'mosaico-rediseno': {
       eyebrow: 'Acabados premium',
-      title: 'Renueva la imagen de tu alberca con instalaci\u00f3n precisa.',
+      title: 'Mosaico y redise\u00f1o para renovar la imagen de tu alberca.',
       body: [
         'Instalamos y reponemos mosaico veneciano con control en alineaci\u00f3n, adherencia y acabado final para que la superficie se vea uniforme y durable.',
         'Es ideal para proyectos nuevos o para rehabilitaciones donde el acabado visual ya no corresponde al nivel del espacio.'
       ],
-      points: ['Instalaci\u00f3n completa o parcial', 'Reposici\u00f3n por zonas da\u00f1adas', 'Acabado uniforme y durable', 'Asesor\u00eda en selecci\u00f3n de materiales'],
+      points: ['Instalaci\u00f3n completa o parcial', 'Reposici\u00f3n por zonas da\u00f1adas', 'Redise\u00f1o de patrones y remates', 'Asesor\u00eda en selecci\u00f3n de materiales'],
       href: 'https://wa.me/5215550602915?text=Hola%2C%20quiero%20cotizar%20instalaci%C3%B3n%20de%20mosaico%20veneciano'
     }
   };
@@ -5028,6 +6078,7 @@ function closeMobile() { mobileNav.classList.remove('open'); }
     lastTrigger = trigger || null;
     eyebrow.textContent = item.eyebrow;
     title.textContent = item.title;
+    title.classList.toggle('is-long', item.title.length > 46);
     body.replaceChildren();
     item.body.forEach(function(paragraph) {
       var paragraphNode = document.createElement('p');
@@ -5040,6 +6091,17 @@ function closeMobile() { mobileNav.classList.remove('open'); }
       pointNode.textContent = point;
       points.appendChild(pointNode);
     });
+    if (visual && image) {
+      if (item.image) {
+        image.src = item.image;
+        image.alt = item.imageAlt || '';
+        visual.hidden = false;
+      } else {
+        visual.hidden = true;
+        image.removeAttribute('src');
+        image.alt = '';
+      }
+    }
     link.href = item.href;
 
     modal.classList.add('is-open');
